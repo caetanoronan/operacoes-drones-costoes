@@ -8,6 +8,7 @@ Apresentacao didatica sobre operacoes com drones em costoes rochosos, reunindo l
 - `Apresentacao_Drones_Costoes.html`: versao principal em portugues.
 - `Apresentacao_Drones_Costoes.en.html`: versao em ingles.
 - `Apresentacao_Drones_Costoes.es.html`: versao em espanhol.
+- `app_campo_drones.html`: app operacional de campo para registrar missoes, pre-voo, condicoes, plano de voo, voo realizado, pos-voo e exportacoes.
 - `CORPAS - Operações com Drones.pdf`: material de apoio.
 - `Drone_1774979550-ica-100-40-2026-final.pdf`: material normativo de apoio.
 

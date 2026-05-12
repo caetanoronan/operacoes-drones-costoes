@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>App de Campo - Operações com Drones</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #eef3f5;
+      --panel: #ffffff;
+      --ink: #17242f;
+      --muted: #5d6d78;
+      --line: #ccd8de;
+      --soft: #f7fafb;
+      --accent: #0b6b63;
+      --accent-dark: #084c47;
+      --danger: #a12736;
+      --warn: #a46200;
+      --ok: #1d7a4d;
+    }
+
+    body.dark {
+      color-scheme: dark;
+      --bg: #111820;
+      --panel: #18242d;
+      --ink: #e6eef2;
+      --muted: #a5b4bd;
+      --line: #34464f;
+      --soft: #14202a;
+      --accent: #65c8bb;
+      --accent-dark: #82ddd2;
+      --danger: #ff9aa6;
+      --warn: #f5c067;
+      --ok: #84d9a9;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 16px;
+      background: linear-gradient(135deg, #063b44, #0c615c);
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.28rem;
+      line-height: 1.2;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      color: #d8eef0;
+      font-size: 0.92rem;
+      line-height: 1.4;
+    }
+
+    header a { color: #d8eef0; font-weight: 700; text-decoration: none; }
+
+    main {
+      width: min(1180px, 96vw);
+      margin: 0 auto;
+      padding: 14px 0 28px;
+    }
+
+    .tabs {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 10px 0;
+      background: var(--bg);
+    }
+
+    button, .button-link {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 9px 11px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 39px;
+    }
+
+    button.primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    button.danger {
+      color: var(--danger);
+      border-color: #e5b6bd;
+      background: #fff4f5;
+    }
+
+    body.dark button.danger { background: #2b1820; border-color: #71414a; }
+
+    .tabs button.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .view { display: none; }
+    .view.active { display: block; }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      color: var(--accent-dark);
+      font-size: 1rem;
+    }
+
+    h3 {
+      margin: 12px 0 8px;
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+    label {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      color: var(--ink);
+      padding: 9px;
+      min-height: 39px;
+      font: inherit;
+    }
+
+    textarea { min-height: 82px; resize: vertical; }
+
+    .check-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      font-size: 0.9rem;
+    }
+
+    .check input { width: auto; min-height: auto; }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .notice {
+      margin-bottom: 12px;
+      padding: 10px;
+      border: 1px solid #dfca8a;
+      border-radius: 8px;
+      background: #fff8e6;
+      color: #65420b;
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+
+    body.dark .notice {
+      background: #2a2417;
+      border-color: #806526;
+      color: #f3d79a;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .metric {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    .metric strong {
+      display: block;
+      color: var(--accent-dark);
+      font-size: 1.35rem;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    table {
+      width: 100%;
+      min-width: 1100px;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 8px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 0.84rem;
+    }
+
+    th {
+      background: var(--soft);
+      color: var(--accent-dark);
+      position: sticky;
+      top: 0;
+    }
+
+    .mini {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .file-input { display: none; }
+
+    @media (max-width: 920px) {
+      .grid, .grid.two, .grid.three, .summary, .check-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>App de Campo - Operações com Drones</h1>
+      <p>Ficha operacional para planejamento, segurança, registro de voo, pós-voo e exportação dos dados de missões em costões rochosos.</p>
+      <p><a href="Apresentacao_Drones_Costoes.html">Voltar para a apresentação</a></p>
+    </div>
+    <button id="themeToggle" type="button">Modo escuro</button>
+  </header>
+
+  <main>
+    <nav class="tabs" aria-label="Navegação do app">
+      <button class="active" type="button" data-view="missao">Missão</button>
+      <button type="button" data-view="prevoo">Pré-voo</button>
+      <button type="button" data-view="ambiente">Condições</button>
+      <button type="button" data-view="plano">Plano de voo</button>
+      <button type="button" data-view="registro">Registro</button>
+      <button type="button" data-view="posvoo">Pós-voo</button>
+      <button type="button" data-view="dados">Dados</button>
+      <button type="button" data-view="exportar">Exportar</button>
+    </nav>
+
+    <div class="notice">
+      Os registros ficam salvos neste navegador. Ao final do campo, exporte CSV/Excel e um backup JSON antes de limpar cache, trocar aparelho ou usar outro navegador.
+    </div>
+
+    <form id="missionForm">
+      <section class="view active" id="missao">
+        <div class="panel">
+          <h2>Identificação da missão</h2>
+          <div class="grid">
+            <div>
+              <label for="project">Projeto</label>
+              <input id="project" name="project" value="Operações com Drones em Costões Rochosos" required>
+            </div>
+            <div>
+              <label for="team">Equipe</label>
+              <input id="team" name="team" placeholder="Nomes ou iniciais" required>
+            </div>
+            <div>
+              <label for="date">Data</label>
+              <input id="date" name="date" type="date" required>
+            </div>
+            <div>
+              <label for="location">Local</label>
+              <input id="location" name="location" placeholder="Costão, praia ou ponto" required>
+            </div>
+            <div>
+              <label for="campaign">Campanha</label>
+              <input id="campaign" name="campaign" placeholder="Ex.: 2026_05_costoes">
+            </div>
+            <div>
+              <label for="missionCode">Código da missão</label>
+              <input id="missionCode" name="missionCode" placeholder="Ex.: DRN-SAM-001">
+            </div>
+            <div>
+              <label for="clientInstitution">Instituição</label>
+              <input id="clientInstitution" name="clientInstitution" placeholder="UFSC, laboratório, equipe">
+            </div>
+            <div>
+              <label for="objective">Objetivo do voo</label>
+              <select id="objective" name="objective">
+                <option>Fotogrametria</option>
+                <option>Mapeamento costeiro</option>
+                <option>Monitoramento ambiental</option>
+                <option>Inventário visual</option>
+                <option>Treinamento operacional</option>
+                <option>Outro</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <label for="objectiveNotes">Descrição do objetivo</label>
+            <textarea id="objectiveNotes" name="objectiveNotes" placeholder="Área-alvo, produto esperado, restrições e observações da missão"></textarea>
+          </div>
+          <div class="actions">
+            <button type="button" id="fillNow">Preencher data e hora</button>
+            <button type="button" id="getGps">Capturar GPS</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="prevoo">
+        <div class="panel">
+          <h2>Equipe, autorização e aeronave</h2>
+          <div class="grid">
+            <div>
+              <label for="pilot">Piloto remoto</label>
+              <input id="pilot" name="pilot" required>
+            </div>
+            <div>
+              <label for="observer">Observador</label>
+              <input id="observer" name="observer">
+            </div>
+            <div>
+              <label for="droneModel">Modelo do drone</label>
+              <input id="droneModel" name="droneModel" placeholder="Ex.: DJI Mini 4 Pro">
+            </div>
+            <div>
+              <label for="droneSerial">Número de série</label>
+              <input id="droneSerial" name="droneSerial">
+            </div>
+            <div>
+              <label for="anacRegistration">Registro ANAC</label>
+              <input id="anacRegistration" name="anacRegistration" placeholder="Código ou N/A">
+            </div>
+            <div>
+              <label for="deceaAuth">Autorização DECEA/e-NotaM</label>
+              <select id="deceaAuth" name="deceaAuth">
+                <option>Solicitada e aprovada</option>
+                <option>Não aplicável</option>
+                <option>Pendente</option>
+                <option>Não realizada</option>
+              </select>
+            </div>
+            <div>
+              <label for="riskAssessment">Avaliação de risco</label>
+              <select id="riskAssessment" name="riskAssessment">
+                <option>Concluída</option>
+                <option>Revisar em campo</option>
+                <option>Não realizada</option>
+              </select>
+            </div>
+            <div>
+              <label for="sdCardStatus">Cartão SD</label>
+              <select id="sdCardStatus" name="sdCardStatus">
+                <option>Formatado e com espaço</option>
+                <option>Com espaço, não formatado</option>
+                <option>Substituir antes do voo</option>
+              </select>
+            </div>
+          </div>
+
+          <h3>Checklist pré-voo</h3>
+          <div class="check-grid" data-check-group="preflightChecklist">
+            <label class="check"><input type="checkbox" value="Aeronave inspecionada"> Aeronave inspecionada</label>
+            <label class="check"><input type="checkbox" value="Helices integras"> Hélices íntegras</label>
+            <label class="check"><input type="checkbox" value="Baterias carregadas"> Baterias carregadas</label>
+            <label class="check"><input type="checkbox" value="Firmware verificado"> Firmware verificado</label>
+            <label class="check"><input type="checkbox" value="Controle carregado"> Controle carregado</label>
+            <label class="check"><input type="checkbox" value="Home point definido"> Home point definido</label>
+            <label class="check"><input type="checkbox" value="RTH configurado"> RTH configurado</label>
+            <label class="check"><input type="checkbox" value="Area isolada"> Área isolada</label>
+            <label class="check"><input type="checkbox" value="Briefing de seguranca"> Briefing de segurança</label>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="preflightNotes">Observações do pré-voo</label>
+            <textarea id="preflightNotes" name="preflightNotes"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="ambiente">
+        <div class="panel">
+          <h2>Condições ambientais e riscos locais</h2>
+          <div class="grid">
+            <div>
+              <label for="windSpeed">Vento médio (m/s)</label>
+              <input id="windSpeed" name="windSpeed" type="number" step="0.1">
+            </div>
+            <div>
+              <label for="windGust">Rajada (m/s)</label>
+              <input id="windGust" name="windGust" type="number" step="0.1">
+            </div>
+            <div>
+              <label for="windDirection">Direção do vento</label>
+              <input id="windDirection" name="windDirection" placeholder="Ex.: NE, S, 120°">
+            </div>
+            <div>
+              <label for="rain">Chuva</label>
+              <select id="rain" name="rain">
+                <option>Ausente</option>
+                <option>Garoa</option>
+                <option>Chuva fraca</option>
+                <option>Chuva moderada/forte</option>
+              </select>
+            </div>
+            <div>
+              <label for="visibility">Visibilidade</label>
+              <select id="visibility" name="visibility">
+                <option>Boa</option>
+                <option>Moderada</option>
+                <option>Baixa</option>
+              </select>
+            </div>
+            <div>
+              <label for="tide">Maré</label>
+              <select id="tide" name="tide">
+                <option>Baixa</option>
+                <option>Enchente</option>
+                <option>Alta</option>
+                <option>Vazante</option>
+                <option>Não verificada</option>
+              </select>
+            </div>
+            <div>
+              <label for="tideHeight">Altura da maré (m)</label>
+              <input id="tideHeight" name="tideHeight" type="number" step="0.01">
+            </div>
+            <div>
+              <label for="light">Luminosidade</label>
+              <select id="light" name="light">
+                <option>Sol pleno</option>
+                <option>Parcialmente nublado</option>
+                <option>Nublado</option>
+                <option>Baixa luz</option>
+              </select>
+            </div>
+          </div>
+
+          <h3>Riscos observados</h3>
+          <div class="check-grid" data-check-group="localRisks">
+            <label class="check"><input type="checkbox" value="Pessoas proximas"> Pessoas próximas</label>
+            <label class="check"><input type="checkbox" value="Animais/fauna"> Animais/fauna</label>
+            <label class="check"><input type="checkbox" value="Fios ou postes"> Fios ou postes</label>
+            <label class="check"><input type="checkbox" value="Arvores"> Árvores</label>
+            <label class="check"><input type="checkbox" value="Rochas altas"> Rochas altas</label>
+            <label class="check"><input type="checkbox" value="Embarcacoes"> Embarcações</label>
+            <label class="check"><input type="checkbox" value="Aves em voo"> Aves em voo</label>
+            <label class="check"><input type="checkbox" value="Interferencia magnetica"> Interferência magnética</label>
+            <label class="check"><input type="checkbox" value="Nenhum risco critico"> Nenhum risco crítico</label>
+          </div>
+
+          <div style="margin-top:10px;">
+            <label for="environmentNotes">Observações ambientais</label>
+            <textarea id="environmentNotes" name="environmentNotes"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="plano">
+        <div class="panel">
+          <h2>Plano de voo e aquisição</h2>
+          <div class="grid">
+            <div>
+              <label for="flightMode">Modo de voo</label>
+              <select id="flightMode" name="flightMode">
+                <option>Grade fotogramétrica</option>
+                <option>Waypoint</option>
+                <option>Manual assistido</option>
+                <option>Panorama/órbita</option>
+                <option>Vídeo linear</option>
+              </select>
+            </div>
+            <div>
+              <label for="plannedAltitude">Altitude planejada (m)</label>
+              <input id="plannedAltitude" name="plannedAltitude" type="number" step="1">
+            </div>
+            <div>
+              <label for="plannedArea">Área planejada</label>
+              <input id="plannedArea" name="plannedArea" placeholder="Ex.: 2 ha ou trecho X-Y">
+            </div>
+            <div>
+              <label for="plannedSpeed">Velocidade (m/s)</label>
+              <input id="plannedSpeed" name="plannedSpeed" type="number" step="0.1">
+            </div>
+            <div>
+              <label for="frontOverlap">Sobreposição frontal (%)</label>
+              <input id="frontOverlap" name="frontOverlap" type="number" step="1">
+            </div>
+            <div>
+              <label for="sideOverlap">Sobreposição lateral (%)</label>
+              <input id="sideOverlap" name="sideOverlap" type="number" step="1">
+            </div>
+            <div>
+              <label for="sensorType">Sensor/câmera</label>
+              <select id="sensorType" name="sensorType">
+                <option>RGB</option>
+                <option>Multiespectral</option>
+                <option>Termal</option>
+                <option>Vídeo RGB</option>
+                <option>Outro</option>
+              </select>
+            </div>
+            <div>
+              <label for="captureMode">Modo de captura</label>
+              <select id="captureMode" name="captureMode">
+                <option>Foto intervalada</option>
+                <option>Foto por distância</option>
+                <option>Foto manual</option>
+                <option>Vídeo</option>
+                <option>Foto + vídeo</option>
+              </select>
+            </div>
+            <div>
+              <label for="gcpUsed">Pontos de controle</label>
+              <select id="gcpUsed" name="gcpUsed">
+                <option>Não utilizados</option>
+                <option>Distribuídos em campo</option>
+                <option>Pontos naturais</option>
+                <option>RTK/PPK</option>
+              </select>
+            </div>
+            <div>
+              <label for="rthAltitude">Altitude RTH (m)</label>
+              <input id="rthAltitude" name="rthAltitude" type="number" step="1">
+            </div>
+            <div>
+              <label for="takeoffPoint">Ponto de decolagem</label>
+              <input id="takeoffPoint" name="takeoffPoint" placeholder="Descrição curta">
+            </div>
+            <div>
+              <label for="landingPoint">Ponto de pouso</label>
+              <input id="landingPoint" name="landingPoint" placeholder="Descrição curta">
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <label for="flightPlanNotes">Observações do plano</label>
+            <textarea id="flightPlanNotes" name="flightPlanNotes" placeholder="Faixa do costão, linhas, altitude mínima segura, área de exclusão"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="registro">
+        <div class="panel">
+          <h2>Registro do voo realizado</h2>
+          <div class="grid">
+            <div>
+              <label for="startTime">Hora início</label>
+              <input id="startTime" name="startTime" type="time">
+            </div>
+            <div>
+              <label for="endTime">Hora término</label>
+              <input id="endTime" name="endTime" type="time">
+            </div>
+            <div>
+              <label for="lat">Latitude</label>
+              <input id="lat" name="lat" type="number" step="0.000001">
+            </div>
+            <div>
+              <label for="lon">Longitude</label>
+              <input id="lon" name="lon" type="number" step="0.000001">
+            </div>
+            <div>
+              <label for="gpsAccuracy">Precisão GPS (m)</label>
+              <input id="gpsAccuracy" name="gpsAccuracy" type="number" step="0.1">
+            </div>
+            <div>
+              <label for="actualAltitude">Altitude realizada (m)</label>
+              <input id="actualAltitude" name="actualAltitude" type="number" step="1">
+            </div>
+            <div>
+              <label for="photoCount">Número de fotos</label>
+              <input id="photoCount" name="photoCount" type="number" step="1" min="0">
+            </div>
+            <div>
+              <label for="videoCount">Número de vídeos</label>
+              <input id="videoCount" name="videoCount" type="number" step="1" min="0">
+            </div>
+            <div>
+              <label for="dataFolder">Pasta dos arquivos</label>
+              <input id="dataFolder" name="dataFolder" placeholder="Ex.: 2026_05_11_Sambaqui_D01">
+            </div>
+            <div>
+              <label for="flightApp">App usado</label>
+              <input id="flightApp" name="flightApp" placeholder="DJI Fly, Pilot, Litchi...">
+            </div>
+            <div>
+              <label for="flightStatus">Status do voo</label>
+              <select id="flightStatus" name="flightStatus">
+                <option>Concluído</option>
+                <option>Parcial</option>
+                <option>Abortado</option>
+                <option>Remarcado</option>
+              </select>
+            </div>
+            <div>
+              <label for="incidentLevel">Ocorrências</label>
+              <select id="incidentLevel" name="incidentLevel">
+                <option>Nenhuma</option>
+                <option>Leve</option>
+                <option>Moderada</option>
+                <option>Crítica</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <label for="flightOccurrences">Descrição das ocorrências</label>
+            <textarea id="flightOccurrences" name="flightOccurrences" placeholder="Perda de sinal, vento, aves, interrupção por pessoas, pouso alternativo"></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="posvoo">
+        <div class="panel">
+          <h2>Pós-voo e integridade dos dados</h2>
+          <div class="grid">
+            <div>
+              <label for="batteriesUsed">Baterias usadas</label>
+              <input id="batteriesUsed" name="batteriesUsed" type="number" step="1" min="0">
+            </div>
+            <div>
+              <label for="lowestBattery">Menor bateria ao pousar (%)</label>
+              <input id="lowestBattery" name="lowestBattery" type="number" step="1" min="0" max="100">
+            </div>
+            <div>
+              <label for="dataIntegrity">Integridade dos dados</label>
+              <select id="dataIntegrity" name="dataIntegrity">
+                <option>Verificada</option>
+                <option>Parcial</option>
+                <option>Não verificada</option>
+                <option>Falha de mídia</option>
+              </select>
+            </div>
+            <div>
+              <label for="backupDone">Backup realizado?</label>
+              <select id="backupDone" name="backupDone">
+                <option>Sim</option>
+                <option>Não</option>
+                <option>Parcial</option>
+              </select>
+            </div>
+            <div>
+              <label for="backupLocation">Local do backup</label>
+              <input id="backupLocation" name="backupLocation" placeholder="HD, OneDrive, Drive...">
+            </div>
+            <div>
+              <label for="anomalies">Anomalias</label>
+              <select id="anomalies" name="anomalies">
+                <option>Nenhuma</option>
+                <option>Imagem borrada</option>
+                <option>Falha de sobreposição</option>
+                <option>Dados incompletos</option>
+                <option>Problema operacional</option>
+              </select>
+            </div>
+            <div>
+              <label for="processingStatus">Processamento</label>
+              <select id="processingStatus" name="processingStatus">
+                <option>A processar</option>
+                <option>Em processamento</option>
+                <option>Ortomosaico gerado</option>
+                <option>Modelo 3D gerado</option>
+                <option>Não aplicável</option>
+              </select>
+            </div>
+            <div>
+              <label for="productLink">Link dos produtos/dados</label>
+              <input id="productLink" name="productLink" placeholder="Drive, OneDrive, pasta local">
+            </div>
+          </div>
+          <div style="margin-top:10px;">
+            <label for="postflightNotes">Observações finais</label>
+            <textarea id="postflightNotes" name="postflightNotes"></textarea>
+          </div>
+
+          <div class="actions">
+            <button class="primary" type="submit">Salvar missão</button>
+            <button type="button" id="clearDraft">Limpar formulário</button>
+          </div>
+        </div>
+      </section>
+    </form>
+
+    <section class="view" id="dados">
+      <div class="summary" id="summary"></div>
+      <div class="panel">
+        <h2>Missões registradas</h2>
+        <div class="table-wrap" id="missionTable"></div>
+      </div>
+    </section>
+
+    <section class="view" id="exportar">
+      <div class="panel">
+        <h2>Exportação e backup</h2>
+        <p class="mini">Use CSV para planilhas, XLS para abrir direto no Excel e JSON para backup completo do app.</p>
+        <div class="actions">
+          <button type="button" id="exportCsv">Exportar CSV</button>
+          <button type="button" id="exportExcel">Exportar Excel</button>
+          <button type="button" id="exportJson">Backup JSON</button>
+          <button type="button" id="importJsonBtn">Importar JSON</button>
+          <button class="danger" type="button" id="clearAll">Apagar todos</button>
+          <input class="file-input" id="importJson" type="file" accept="application/json,.json">
+        </div>
+        <p class="mini" id="backupStatus">Nenhum backup exportado nesta sessão.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const STORAGE_KEY = "droneFieldApp.v1";
+    const DRAFT_KEY = "droneFieldAppDraft.v1";
+    const THEME_KEY = "droneFieldAppTheme.v1";
+
+    const columns = [
+      "id", "createdAt", "project", "campaign", "missionCode", "team", "date", "location",
+      "objective", "pilot", "observer", "droneModel", "droneSerial", "anacRegistration",
+      "deceaAuth", "riskAssessment", "preflightChecklist", "windSpeed", "windGust",
+      "windDirection", "rain", "visibility", "tide", "tideHeight", "light", "localRisks",
+      "flightMode", "plannedAltitude", "plannedArea", "plannedSpeed", "frontOverlap",
+      "sideOverlap", "sensorType", "captureMode", "gcpUsed", "rthAltitude", "startTime",
+      "endTime", "lat", "lon", "gpsAccuracy", "actualAltitude", "photoCount", "videoCount",
+      "dataFolder", "flightStatus", "incidentLevel", "batteriesUsed", "lowestBattery",
+      "dataIntegrity", "backupDone", "backupLocation", "anomalies", "processingStatus",
+      "productLink", "objectiveNotes", "preflightNotes", "environmentNotes", "flightPlanNotes",
+      "flightOccurrences", "postflightNotes"
+    ];
+
+    let state = loadState();
+    let lastBackupAt = "";
+
+    function loadState() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || { missions: [] };
+      } catch (_) {
+        return { missions: [] };
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderAll();
+    }
+
+    function formToObject() {
+      const form = document.getElementById("missionForm");
+      const data = Object.fromEntries(new FormData(form).entries());
+      data.preflightChecklist = getChecked("preflightChecklist").join("; ");
+      data.localRisks = getChecked("localRisks").join("; ");
+      data.id = data.missionCode || `DRN-${new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 14)}`;
+      data.createdAt = new Date().toISOString();
+      return data;
+    }
+
+    function objectToForm(data) {
+      const form = document.getElementById("missionForm");
+      form.reset();
+      Object.entries(data || {}).forEach(([key, value]) => {
+        const field = form.elements[key];
+        if (field && field.type !== "checkbox") field.value = value ?? "";
+      });
+      setChecked("preflightChecklist", data?.preflightChecklist || "");
+      setChecked("localRisks", data?.localRisks || "");
+    }
+
+    function getChecked(group) {
+      return [...document.querySelectorAll(`[data-check-group="${group}"] input:checked`)].map(input => input.value);
+    }
+
+    function setChecked(group, values) {
+      const set = new Set(String(values).split(";").map(item => item.trim()).filter(Boolean));
+      document.querySelectorAll(`[data-check-group="${group}"] input`).forEach(input => {
+        input.checked = set.has(input.value);
+      });
+    }
+
+    function saveDraft() {
+      const data = Object.fromEntries(new FormData(document.getElementById("missionForm")).entries());
+      data.preflightChecklist = getChecked("preflightChecklist").join("; ");
+      data.localRisks = getChecked("localRisks").join("; ");
+      localStorage.setItem(DRAFT_KEY, JSON.stringify(data));
+    }
+
+    function restoreDraft() {
+      try {
+        const draft = JSON.parse(localStorage.getItem(DRAFT_KEY));
+        if (draft) objectToForm(draft);
+      } catch (_) {}
+    }
+
+    function clearDraft() {
+      document.getElementById("missionForm").reset();
+      localStorage.removeItem(DRAFT_KEY);
+      const now = new Date();
+      document.getElementById("date").value = now.toISOString().slice(0, 10);
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+      }[char]));
+    }
+
+    function htmlTable(rows, tableColumns) {
+      if (!rows.length) return "<p class=\"mini\">Nenhuma missão registrada ainda.</p>";
+      const head = tableColumns.map(col => `<th>${escapeHtml(col)}</th>`).join("");
+      const body = rows.map(row => `<tr>${tableColumns.map(col => `<td>${escapeHtml(row[col])}</td>`).join("")}</tr>`).join("");
+      return `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+    }
+
+    function toCsv(rows, tableColumns) {
+      const clean = value => `"${String(value ?? "").replace(/"/g, '""')}"`;
+      return [tableColumns.join(","), ...rows.map(row => tableColumns.map(col => clean(row[col])).join(","))].join("\r\n");
+    }
+
+    function download(filename, content, type) {
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    function todayId() {
+      return new Date().toISOString().slice(0, 10).replace(/-/g, "");
+    }
+
+    function mean(values) {
+      const valid = values.map(Number).filter(Number.isFinite);
+      if (!valid.length) return "";
+      return (valid.reduce((sum, value) => sum + value, 0) / valid.length).toFixed(1);
+    }
+
+    function renderAll() {
+      const missions = state.missions || [];
+      const photos = missions.reduce((sum, item) => sum + (Number(item.photoCount) || 0), 0);
+      const videos = missions.reduce((sum, item) => sum + (Number(item.videoCount) || 0), 0);
+      const windMean = mean(missions.map(item => item.windSpeed));
+      document.getElementById("summary").innerHTML = `
+        <div class="metric"><strong>${missions.length}</strong><span>missões salvas</span></div>
+        <div class="metric"><strong>${photos}</strong><span>fotos registradas</span></div>
+        <div class="metric"><strong>${videos}</strong><span>vídeos registrados</span></div>
+        <div class="metric"><strong>${windMean}</strong><span>vento médio informado (m/s)</span></div>
+      `;
+      document.getElementById("missionTable").innerHTML = htmlTable(missions, [
+        "date", "location", "missionCode", "pilot", "droneModel", "objective", "flightMode",
+        "plannedAltitude", "windSpeed", "flightStatus", "photoCount", "videoCount",
+        "backupDone", "incidentLevel", "dataFolder"
+      ]);
+    }
+
+    document.querySelectorAll(".tabs button").forEach(button => {
+      button.addEventListener("click", () => {
+        document.querySelectorAll(".tabs button").forEach(tab => tab.classList.remove("active"));
+        document.querySelectorAll(".view").forEach(view => view.classList.remove("active"));
+        button.classList.add("active");
+        document.getElementById(button.dataset.view).classList.add("active");
+      });
+    });
+
+    document.getElementById("missionForm").addEventListener("input", saveDraft);
+    document.getElementById("missionForm").addEventListener("change", saveDraft);
+
+    document.getElementById("missionForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const mission = formToObject();
+      const existingIndex = state.missions.findIndex(item => item.id === mission.id);
+      if (existingIndex >= 0) state.missions[existingIndex] = mission;
+      else state.missions.push(mission);
+      saveState();
+      localStorage.removeItem(DRAFT_KEY);
+      alert("Missão salva.");
+    });
+
+    document.getElementById("fillNow").addEventListener("click", () => {
+      const now = new Date();
+      document.getElementById("date").value = now.toISOString().slice(0, 10);
+      document.getElementById("startTime").value = now.toTimeString().slice(0, 5);
+      saveDraft();
+    });
+
+    document.getElementById("getGps").addEventListener("click", () => {
+      if (!navigator.geolocation) {
+        alert("GPS indisponível neste navegador.");
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(position => {
+        document.getElementById("lat").value = position.coords.latitude.toFixed(6);
+        document.getElementById("lon").value = position.coords.longitude.toFixed(6);
+        document.getElementById("gpsAccuracy").value = Number.isFinite(position.coords.accuracy)
+          ? position.coords.accuracy.toFixed(1)
+          : "";
+        saveDraft();
+      }, () => alert("Não foi possível capturar o GPS."), {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0
+      });
+    });
+
+    document.getElementById("clearDraft").addEventListener("click", clearDraft);
+
+    document.getElementById("exportCsv").addEventListener("click", () => {
+      download(`drones_missoes_${todayId()}.csv`, toCsv(state.missions, columns), "text/csv;charset=utf-8");
+    });
+
+    document.getElementById("exportExcel").addEventListener("click", () => {
+      const html = `<html><head><meta charset="UTF-8"></head><body><h1>Missões com drones</h1>${htmlTable(state.missions, columns)}</body></html>`;
+      download(`drones_missoes_${todayId()}.xls`, html, "application/vnd.ms-excel;charset=utf-8");
+    });
+
+    document.getElementById("exportJson").addEventListener("click", () => {
+      download(`backup_drones_campo_${todayId()}.json`, JSON.stringify(state, null, 2), "application/json;charset=utf-8");
+      lastBackupAt = new Date().toLocaleString("pt-BR");
+      document.getElementById("backupStatus").textContent = `Último backup exportado: ${lastBackupAt}.`;
+    });
+
+    document.getElementById("importJsonBtn").addEventListener("click", () => {
+      document.getElementById("importJson").click();
+    });
+
+    document.getElementById("importJson").addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const imported = JSON.parse(reader.result);
+          state = { missions: imported.missions || [] };
+          saveState();
+          alert("Backup importado.");
+        } catch (_) {
+          alert("Arquivo JSON inválido.");
+        } finally {
+          event.target.value = "";
+        }
+      };
+      reader.readAsText(file);
+    });
+
+    document.getElementById("clearAll").addEventListener("click", () => {
+      if (!confirm("Apagar todos os registros deste navegador? Exporte um backup antes.")) return;
+      state = { missions: [] };
+      localStorage.removeItem(DRAFT_KEY);
+      saveState();
+    });
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      const dark = document.body.classList.contains("dark");
+      localStorage.setItem(THEME_KEY, dark ? "dark" : "light");
+      document.getElementById("themeToggle").textContent = dark ? "Modo claro" : "Modo escuro";
+    });
+
+    if (localStorage.getItem(THEME_KEY) === "dark") {
+      document.body.classList.add("dark");
+      document.getElementById("themeToggle").textContent = "Modo claro";
+    }
+
+    restoreDraft();
+    if (!document.getElementById("date").value) {
+      document.getElementById("date").value = new Date().toISOString().slice(0, 10);
+    }
+    renderAll();
+  </script>
+</body>
+</html>
