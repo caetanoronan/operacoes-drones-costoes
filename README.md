@@ -9,7 +9,11 @@ Apresentacao didatica sobre operacoes com drones em costoes rochosos, reunindo l
 - `Apresentacao_Drones_Costoes.en.html`: versao em ingles.
 - `Apresentacao_Drones_Costoes.es.html`: versao em espanhol.
 - `app_campo_drones.html`: app operacional de campo para registrar missoes, pre-voo, condicoes, plano de voo, voo realizado, pos-voo e exportacoes.
+- `app_campo_drones.en.html`: versao em ingles do app operacional de campo.
+- `app_campo_drones.es.html`: versao em espanhol do app operacional de campo.
 - `GUIA_USO_APP_CAMPO_DRONES.html`: manual rapido de uso e validacao do app de campo.
+- `GUIA_USO_APP_CAMPO_DRONES.en.html`: guia de uso em ingles.
+- `GUIA_USO_APP_CAMPO_DRONES.es.html`: guia de uso em espanhol.
 - `supabase_drones_schema.sql`: estrutura SQL para sincronizar o app de drones com Supabase/Postgres.
 - `CORPAS - Operações com Drones.pdf`: material de apoio.
 - `Drone_1774979550-ica-100-40-2026-final.pdf`: material normativo de apoio.

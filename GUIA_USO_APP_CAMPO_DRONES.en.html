@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Usage Guide - Drone Field App</title>
+  <style>
+    :root { color-scheme: light; --bg:#eef3f5; --panel:#fff; --ink:#17242f; --muted:#5d6d78; --line:#ccd8de; --soft:#f7fafb; --accent:#0b6b63; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",Tahoma,Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.55; }
+    header { padding:18px; background:linear-gradient(135deg,#063b44,#0c615c); color:#fff; }
+    header h1 { margin:0; font-size:1.35rem; line-height:1.2; }
+    header p { max-width:860px; margin:8px 0 0; color:#d8eef0; }
+    header a { color:#d8eef0; font-weight:700; text-decoration:none; }
+    main { width:min(980px,94vw); margin:0 auto; padding:16px 0 32px; }
+    section { margin-bottom:12px; padding:16px; border:1px solid var(--line); border-radius:8px; background:var(--panel); }
+    h2 { margin:0 0 10px; color:var(--accent); font-size:1.08rem; }
+    ul, ol { padding-left:1.25rem; }
+    li { margin:6px 0; }
+    code { padding:2px 4px; border-radius:4px; background:var(--soft); border:1px solid var(--line); }
+    .notice { border-color:#dfca8a; background:#fff8e6; color:#65420b; }
+    .button { display:inline-flex; min-height:40px; align-items:center; justify-content:center; padding:9px 12px; border-radius:8px; background:var(--accent); color:#fff; font-weight:700; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Usage Guide - Drone Field App</h1>
+    <p>Quick guide to prepare, record, review and export rocky shore drone missions.</p>
+    <p><a href="app_campo_drones.en.html">Open field app</a> | <a href="Apresentacao_Drones_Costoes.en.html">Back to presentation</a></p>
+  </header>
+  <main>
+    <section class="notice">
+      <h2>Before You Start</h2>
+      <p>The app stores records in the browser using local storage. It can work in the field after loading, but you should export a backup at the end of the activity.</p>
+    </section>
+    <section>
+      <h2>Recommended Workflow</h2>
+      <ol>
+        <li>Open the app on the phone, tablet or notebook used in the field.</li>
+        <li>Fill the <strong>Mission</strong> tab with project, team, location, date and objective.</li>
+        <li>Review <strong>Pre-flight</strong> before powering or launching the drone.</li>
+        <li>Record wind, rain, visibility, tide, light and risks in <strong>Conditions</strong>.</li>
+        <li>Complete the <strong>Flight plan</strong> with altitude, area, speed, overlap and sensor.</li>
+        <li>During or after the flight, fill <strong>Flight log</strong> with times, GPS, photos, videos, folder and occurrences.</li>
+        <li>After downloading the data, complete <strong>Post-flight</strong>.</li>
+        <li>Click <strong>Save mission</strong> and review the <strong>Data</strong> tab.</li>
+        <li>At the end of the day, export CSV, Excel and JSON backup.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Supabase Sync</h2>
+      <ol>
+        <li>In Supabase, run <code>supabase_drones_schema.sql</code> once in SQL Editor.</li>
+        <li>Open the app and go to <strong>Cloud</strong>.</li>
+        <li>Check the Supabase URL, publishable/anon key, campaign and device.</li>
+        <li>Click <strong>Save and connect</strong> or <strong>Test connection</strong>.</li>
+        <li>Use <strong>Upload local data</strong> to send records to the cloud.</li>
+        <li>Use <strong>Download cloud data</strong> to recover or merge campaign records.</li>
+      </ol>
+      <p>Use only the publishable or anon public key in the app. Never paste a service role key into public pages.</p>
+    </section>
+    <section>
+      <h2>Export and Backup</h2>
+      <ul>
+        <li><strong>CSV:</strong> recommended for spreadsheets and databases.</li>
+        <li><strong>Excel:</strong> simple <code>.xls</code> file for quick review.</li>
+        <li><strong>JSON:</strong> full backup to restore records in the app.</li>
+      </ul>
+      <p><a class="button" href="app_campo_drones.en.html">Open field app</a></p>
+    </section>
+  </main>
+</body>
+</html>

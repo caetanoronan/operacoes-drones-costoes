@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guía de Uso - App de Campo para Drones</title>
+  <style>
+    :root { color-scheme: light; --bg:#eef3f5; --panel:#fff; --ink:#17242f; --muted:#5d6d78; --line:#ccd8de; --soft:#f7fafb; --accent:#0b6b63; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Segoe UI",Tahoma,Arial,sans-serif; color:var(--ink); background:var(--bg); line-height:1.55; }
+    header { padding:18px; background:linear-gradient(135deg,#063b44,#0c615c); color:#fff; }
+    header h1 { margin:0; font-size:1.35rem; line-height:1.2; }
+    header p { max-width:860px; margin:8px 0 0; color:#d8eef0; }
+    header a { color:#d8eef0; font-weight:700; text-decoration:none; }
+    main { width:min(980px,94vw); margin:0 auto; padding:16px 0 32px; }
+    section { margin-bottom:12px; padding:16px; border:1px solid var(--line); border-radius:8px; background:var(--panel); }
+    h2 { margin:0 0 10px; color:var(--accent); font-size:1.08rem; }
+    ul, ol { padding-left:1.25rem; }
+    li { margin:6px 0; }
+    code { padding:2px 4px; border-radius:4px; background:var(--soft); border:1px solid var(--line); }
+    .notice { border-color:#dfca8a; background:#fff8e6; color:#65420b; }
+    .button { display:inline-flex; min-height:40px; align-items:center; justify-content:center; padding:9px 12px; border-radius:8px; background:var(--accent); color:#fff; font-weight:700; text-decoration:none; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Guía de Uso - App de Campo para Drones</h1>
+    <p>Guía rápida para preparar, registrar, revisar y exportar misiones con drones en costas rocosas.</p>
+    <p><a href="app_campo_drones.es.html">Abrir app de campo</a> | <a href="Apresentacao_Drones_Costoes.es.html">Volver a la presentación</a></p>
+  </header>
+  <main>
+    <section class="notice">
+      <h2>Antes de empezar</h2>
+      <p>El app guarda los registros en el navegador mediante almacenamiento local. Puede trabajar en campo después de cargar, pero se recomienda exportar un backup al final de la actividad.</p>
+    </section>
+    <section>
+      <h2>Flujo recomendado</h2>
+      <ol>
+        <li>Abra el app en el celular, tablet o notebook usado en campo.</li>
+        <li>Complete la pestaña <strong>Misión</strong> con proyecto, equipo, lugar, fecha y objetivo.</li>
+        <li>Revise <strong>Prevuelo</strong> antes de energizar o despegar el drone.</li>
+        <li>Registre viento, lluvia, visibilidad, marea, luminosidad y riesgos en <strong>Condiciones</strong>.</li>
+        <li>Complete el <strong>Plan de vuelo</strong> con altitud, área, velocidad, solape y sensor.</li>
+        <li>Durante o después del vuelo, complete <strong>Registro</strong> con horarios, GPS, fotos, videos, carpeta y ocurrencias.</li>
+        <li>Después de descargar los datos, cierre la misión en <strong>Posvuelo</strong>.</li>
+        <li>Haga clic en <strong>Guardar misión</strong> y revise la pestaña <strong>Datos</strong>.</li>
+        <li>Al final del día, exporte CSV, Excel y backup JSON.</li>
+      </ol>
+    </section>
+    <section>
+      <h2>Sincronización con Supabase</h2>
+      <ol>
+        <li>En Supabase, ejecute <code>supabase_drones_schema.sql</code> una vez en SQL Editor.</li>
+        <li>Abra el app y entre en <strong>Nube</strong>.</li>
+        <li>Revise la URL de Supabase, la clave publishable/anon, la campaña y el dispositivo.</li>
+        <li>Haga clic en <strong>Guardar y conectar</strong> o <strong>Probar conexión</strong>.</li>
+        <li>Use <strong>Enviar datos locales</strong> para mandar registros a la nube.</li>
+        <li>Use <strong>Descargar datos de la nube</strong> para recuperar o mezclar registros de la campaña.</li>
+      </ol>
+      <p>Use solo la clave publishable o anon public en el app. Nunca pegue una service role key en páginas públicas.</p>
+    </section>
+    <section>
+      <h2>Exportación y backup</h2>
+      <ul>
+        <li><strong>CSV:</strong> recomendado para planillas y bases de datos.</li>
+        <li><strong>Excel:</strong> archivo <code>.xls</code> simple para revisión rápida.</li>
+        <li><strong>JSON:</strong> backup completo para restaurar registros en el app.</li>
+      </ul>
+      <p><a class="button" href="app_campo_drones.es.html">Abrir app de campo</a></p>
+    </section>
+  </main>
+</body>
+</html>
