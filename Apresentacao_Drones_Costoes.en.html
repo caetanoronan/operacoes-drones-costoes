@@ -350,6 +350,23 @@
             color: #8ce3d8;
         }
 
+        .quick-reference {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .quick-reference span {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        body.dark-mode .quick-reference span {
+            color: #8ce3d8;
+        }
+
         .checklist {
             background-color: #fff3e0;
             padding: 1.5rem;
@@ -693,6 +710,7 @@
             <button class="tab-button" onclick="openTab(event, 'seguranca')" role="tab" aria-selected="false">⚠️ Safety</button>
             <button class="tab-button" onclick="openTab(event, 'glossario')" role="tab" aria-selected="false">📚 Glossary</button>
             <button class="tab-button" onclick="openTab(event, 'cronograma')" role="tab" aria-selected="false">📅 Schedule</button>
+            <button class="tab-button" onclick="openTab(event, 'referencias')" role="tab" aria-selected="false">📎 References</button>
         </div>
 
         <!-- TAB 1: OVERVIEW -->
@@ -780,6 +798,18 @@
             <h2>⚖️ Legislation Applied to Drone Operations</h2>
 
             <span class="status-badge">DECEA ORDINANCE No. 2.094/DNOR8 - 03/18/2026</span>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>ICA 100-40/2026 as an Operational Reference</h4>
+                    <p>ICA 100-40 complements DECEA Ordinance No. 2.094/DNOR8 as a quick-reference document for framing RPAS operations, recording responsibilities, and checking operational limits before flight.</p>
+                    <ul>
+                        <li><strong>Operational ceiling:</strong> keep the 400 ft AGL limit (approx. 120 m) unless a specific authorization applies.</li>
+                        <li><strong>VLOS on rocky shores:</strong> maintain direct visual line of sight throughout the operation, with an observer when terrain or coastal fog reduces visual awareness.</li>
+                        <li><strong>Traceability:</strong> keep authorization, operational risk assessment, aircraft data, and pilot identification attached to the mission record.</li>
+                    </ul>
+                </div>
+            </div>
 
             <h3>Main Concepts</h3>
 
@@ -1063,6 +1093,7 @@
                 <li>DECEA exam (minimum 70% pass rate)</li>
                 <li>Certificate valid for 3 years</li>
                 <li>Documents: Certificate + CPF + up-to-date ID</li>
+                <li><strong>Theoretical reference:</strong> CORPAS guide as the minimum training basis for any team member who may take control of the radio.</li>
             </ul>
 
             <h4>Aircraft</h4>
@@ -1635,6 +1666,16 @@
             </div>
 
             <div class="glossary-term">
+                <strong>ICA 100-40</strong>
+                <p>Brazilian Aeronautics Command instruction used as a reference for unmanned aircraft access to airspace, including operational limits, VLOS, responsibilities, and authorization requirements.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>CORPAS</strong>
+                <p>RPAS Operations Course adopted as the team's theoretical training reference, especially for the remote pilot and any operator who may take control of the radio during the mission.</p>
+            </div>
+
+            <div class="glossary-term">
                 <strong>GSD (Ground Sample Distance)</strong>
                 <p>Size in meters of one pixel on the ground; smaller GSD = better resolution.</p>
             </div>
@@ -2043,6 +2084,25 @@
                     <li>DECEA notification denied</li>
                     <li>Ill person on the team</li>
                 </ul>
+            </div>
+        </div>
+
+        <div id="referencias" class="tab-content">
+            <h2>📎 Quick References</h2>
+            <p>Supporting documents for direct consultation during the presentation, planning, and execution of drone operations.</p>
+
+            <div class="card-grid">
+                <a class="card quick-reference" href="CORPAS%20-%20Opera%C3%A7%C3%B5es%20com%20Drones.pdf" target="_blank" rel="noopener">
+                    <h4>CORPAS - Drone Operations</h4>
+                    <p>Training and operational reference material for pilots, field crews, and procedure standardization.</p>
+                    <span>Open PDF</span>
+                </a>
+
+                <a class="card quick-reference" href="Drone_1774979550-ica-100-40-2026-final.pdf" target="_blank" rel="noopener">
+                    <h4>ICA 100-40/2026 - Unmanned Aircraft</h4>
+                    <p>DECEA regulatory document for quick consultation on flight rules, responsibilities, and authorizations.</p>
+                    <span>Open PDF</span>
+                </a>
             </div>
         </div>
     </div>

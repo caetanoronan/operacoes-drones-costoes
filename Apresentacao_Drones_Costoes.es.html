@@ -350,6 +350,23 @@
             color: #8ce3d8;
         }
 
+        .quick-reference {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .quick-reference span {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        body.dark-mode .quick-reference span {
+            color: #8ce3d8;
+        }
+
         .checklist {
             background-color: #fff3e0;
             padding: 1.5rem;
@@ -693,6 +710,7 @@
             <button class="tab-button" onclick="openTab(event, 'seguranca')" role="tab" aria-selected="false">⚠️ Seguridad</button>
             <button class="tab-button" onclick="openTab(event, 'glossario')" role="tab" aria-selected="false">📚 Glosario</button>
             <button class="tab-button" onclick="openTab(event, 'cronograma')" role="tab" aria-selected="false">📅 Cronograma</button>
+            <button class="tab-button" onclick="openTab(event, 'referencias')" role="tab" aria-selected="false">📎 Referencias</button>
         </div>
 
         <!-- TAB 1: RESUMEN -->
@@ -780,6 +798,18 @@
             <h2>⚖️ Normativa Aplicada a Operaciones con Drones</h2>
 
             <span class="status-badge">ORDENANZA DECEA N.º 2.094/DNOR8 - 18/03/2026</span>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>ICA 100-40/2026 como Referencia Operativa</h4>
+                    <p>La ICA 100-40 complementa la Ordenanza DECEA N.º 2.094/DNOR8 como documento de consulta rápida para encuadrar operaciones RPAS, registrar responsabilidades y verificar límites operativos antes del vuelo.</p>
+                    <ul>
+                        <li><strong>Techo operativo:</strong> mantener el límite de 400 pies AGL (aprox. 120 m), salvo autorización específica.</li>
+                        <li><strong>VLOS en costas rocosas:</strong> mantener línea de visión directa durante toda la operación, con observador cuando el relieve o la niebla costera reduzcan la percepción visual.</li>
+                        <li><strong>Trazabilidad:</strong> mantener autorización, evaluación de riesgo, datos de la aeronave e identificación del piloto anexados al registro de la misión.</li>
+                    </ul>
+                </div>
+            </div>
 
             <h3>Conceptos Principales</h3>
 
@@ -1063,6 +1093,7 @@
                 <li>Examen DECEA (mínimo 70% de aciertos)</li>
                 <li>Certificado válido por 3 años</li>
                 <li>Documentación: Certificado + CPF + documento de identidad vigente</li>
+                <li><strong>Referencia teórica:</strong> guía CORPAS como base mínima de capacitación para cualquier miembro del equipo que pueda asumir el control del radio.</li>
             </ul>
 
             <h4>Aeronave</h4>
@@ -1635,6 +1666,16 @@
             </div>
 
             <div class="glossary-term">
+                <strong>ICA 100-40</strong>
+                <p>Instrucción del Comando de la Aeronáutica utilizada como referencia para el acceso de aeronaves no tripuladas al espacio aéreo, incluidos límites operativos, VLOS, responsabilidades y requisitos de autorización.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>CORPAS</strong>
+                <p>Curso de Operaciones con RPAS adoptado como referencia teórica de capacitación del equipo, especialmente para el piloto remoto y cualquier operador que pueda asumir el control del radio durante la misión.</p>
+            </div>
+
+            <div class="glossary-term">
                 <strong>GSD (Ground Sample Distance)</strong>
                 <p>Tamaño en metros de un píxel en el terreno; menor GSD = mejor resolución.</p>
             </div>
@@ -2043,6 +2084,25 @@
                     <li>Notificación DECEA denegada</li>
                     <li>Persona enferma en el equipo</li>
                 </ul>
+            </div>
+        </div>
+
+        <div id="referencias" class="tab-content">
+            <h2>📎 Referencias Rápidas</h2>
+            <p>Documentos de apoyo para consulta directa durante la presentación, la planificación y la ejecución de operaciones con drones.</p>
+
+            <div class="card-grid">
+                <a class="card quick-reference" href="CORPAS%20-%20Opera%C3%A7%C3%B5es%20com%20Drones.pdf" target="_blank" rel="noopener">
+                    <h4>CORPAS - Operaciones con Drones</h4>
+                    <p>Material de capacitación y referencia operativa para pilotos, equipos de campo y estandarización de procedimientos.</p>
+                    <span>Abrir PDF</span>
+                </a>
+
+                <a class="card quick-reference" href="Drone_1774979550-ica-100-40-2026-final.pdf" target="_blank" rel="noopener">
+                    <h4>ICA 100-40/2026 - Aeronaves No Tripuladas</h4>
+                    <p>Documento normativo del DECEA para consulta rápida sobre reglas, responsabilidades y autorizaciones de vuelo.</p>
+                    <span>Abrir PDF</span>
+                </a>
             </div>
         </div>
     </div>
