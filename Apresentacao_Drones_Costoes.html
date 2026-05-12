@@ -1,0 +1,2122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Apresentação didática sobre operações com drones em costões rochosos: legislação, segurança, metodologia de campo e glossário técnico.">
+    <title>Operações com Drones em Costões Rochosos - UFSC</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00796b;
+            --secondary-color: #0097a7;
+            --accent-color: #ff6f00;
+            --dark-bg: #1a1a1a;
+            --light-bg: #f5f5f5;
+            --text-dark: #212121;
+            --text-light: #757575;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background-color: #fafafa;
+        }
+
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: 3px solid #ffb300;
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+
+        body.dark-mode {
+            background-color: var(--dark-bg);
+            color: #fff;
+        }
+
+        body.dark-mode .container {
+            background-color: #2a2a2a;
+            color: #fff;
+        }
+
+        body.dark-mode .banner {
+            background: linear-gradient(135deg, #004d40 0%, #00695c 100%);
+        }
+
+        body.dark-mode .tab-button {
+            background-color: #333;
+            color: #fff;
+            border-color: #444;
+        }
+
+        body.dark-mode .tab-button.active {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        body.dark-mode .tab-content {
+            background-color: #2a2a2a;
+            border-color: #444;
+        }
+
+        body.dark-mode h2 {
+            color: #7adbcf;
+            border-left-color: #ff9b42;
+        }
+
+        body.dark-mode h3 {
+            color: #67d6e3;
+        }
+
+        body.dark-mode h4 {
+            color: #f2f7f8;
+        }
+
+        body.dark-mode p,
+        body.dark-mode li,
+        body.dark-mode td,
+        body.dark-mode th,
+        body.dark-mode small,
+        body.dark-mode span {
+            color: #e7edf0;
+        }
+
+        body.dark-mode strong {
+            color: #ffffff;
+        }
+
+        body.dark-mode table tr {
+            background-color: #323a40 !important;
+        }
+
+        body.dark-mode table th {
+            background-color: #00796b !important;
+            color: #ffffff !important;
+        }
+
+        body.dark-mode table td {
+            color: #e7edf0 !important;
+            border-color: #4f5b64 !important;
+        }
+
+        .banner {
+            background: linear-gradient(135deg, #00897b 0%, #00acc1 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .banner h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .banner p {
+            font-size: 1.1rem;
+            margin: 0.3rem 0;
+            opacity: 0.95;
+        }
+
+        .banner strong {
+            font-weight: 600;
+        }
+
+        .header-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .language-selector {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .language-selector a {
+            background-color: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+            cursor: pointer;
+        }
+
+        .language-selector a:hover,
+        .language-selector a.active {
+            background-color: rgba(255,255,255,0.4);
+        }
+
+        .dark-mode-toggle {
+            background-color: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dark-mode-toggle:hover {
+            background-color: rgba(255,255,255,0.4);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            background-color: var(--light-bg);
+            border: 2px solid var(--border-color);
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-radius: 4px 4px 0 0;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            background-color: #e8f5e9;
+            border-color: var(--primary-color);
+        }
+
+        .tab-button.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .tab-button[aria-selected="true"] {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation: none !important;
+                transition: none !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 1.5rem;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+        }
+
+        h4 {
+            color: var(--text-dark);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+            line-height: 1.8;
+        }
+
+        .highlight-box {
+            background-color: #e0f2f1;
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+
+        body.dark-mode .highlight-box {
+            background-color: #004d40;
+            border-left-color: var(--secondary-color);
+        }
+
+        body.dark-mode .highlight-box p,
+        body.dark-mode .highlight-box li,
+        body.dark-mode .highlight-box h4 {
+            color: #eef7f5;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background-color: var(--light-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        body.dark-mode .card {
+            background-color: #363c40;
+            border-color: #56616a;
+        }
+
+        body.dark-mode .card p,
+        body.dark-mode .card li {
+            color: #e9eff2;
+        }
+
+        body.dark-mode .card h4 {
+            color: #8ce3d8;
+        }
+
+        .checklist {
+            background-color: #fff3e0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        body.dark-mode .checklist {
+            background-color: #5a3410;
+            border: 1px solid #8d5d2c;
+        }
+
+        body.dark-mode .checklist-item span,
+        body.dark-mode .checklist-item strong {
+            color: #fff5eb;
+        }
+
+        body.dark-mode .checkbox {
+            accent-color: #ffb067;
+        }
+
+        .checklist-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.8rem;
+            align-items: flex-start;
+        }
+
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-marker {
+            width: 40px;
+            height: 40px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-item:not(:last-child) .timeline-marker::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            height: 80px;
+            background-color: var(--primary-color);
+            left: 50%;
+            top: 100%;
+            transform: translateX(-50%);
+        }
+
+        .timeline-content {
+            flex: 1;
+            background-color: var(--light-bg);
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        body.dark-mode .timeline-content {
+            background-color: #364047;
+            border-left-color: var(--secondary-color);
+        }
+
+        body.dark-mode .timeline-marker {
+            background-color: #009688;
+        }
+
+        body.dark-mode .timeline-item:not(:last-child) .timeline-marker::after {
+            background-color: #009688;
+        }
+
+        .glossary-term {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background-color: var(--light-bg);
+            border-radius: 4px;
+            border-left: 4px solid var(--secondary-color);
+        }
+
+        body.dark-mode .glossary-term {
+            background-color: #364047;
+            border-left-color: var(--accent-color);
+        }
+
+        body.dark-mode .glossary-term p {
+            color: #e7edf0;
+        }
+
+        .glossary-term strong {
+            color: var(--primary-color);
+            font-size: 1.05rem;
+        }
+
+        body.dark-mode .glossary-term strong {
+            color: #8ce3d8;
+        }
+
+        .contrast-checklist {
+            background-color: #e8f5e9;
+            border: 1px solid #9bc9b0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        body.dark-mode .contrast-checklist {
+            background-color: #254237;
+            border-color: #3f6c59;
+        }
+
+        .contrast-checklist h4 {
+            margin-top: 0;
+            margin-bottom: 0.8rem;
+        }
+
+        footer {
+            background-color: #263238;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            font-size: 0.95rem;
+        }
+
+        body.dark-mode footer {
+            background-color: #000;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .method-card {
+            background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid var(--primary-color);
+        }
+
+        .print-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 1rem 0 1.5rem;
+        }
+
+        .print-button {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s ease;
+        }
+
+        .print-button:hover {
+            opacity: 0.92;
+        }
+
+        .print-note {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-top: -0.25rem;
+        }
+
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+
+            .banner,
+            .tabs,
+            .language-selector,
+            .dark-mode-toggle,
+            footer,
+            .no-print {
+                display: none !important;
+            }
+
+            .container {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                max-width: none !important;
+            }
+
+            .tab-content {
+                display: none !important;
+            }
+
+            .tab-content.active {
+                display: block !important;
+            }
+
+            .print-actions {
+                display: none !important;
+            }
+
+            .card,
+            .method-card,
+            .highlight-box,
+            .checklist,
+            .timeline-content,
+            .glossary-term {
+                break-inside: avoid;
+                page-break-inside: avoid;
+                box-shadow: none !important;
+                background: #ffffff !important;
+                color: #000000 !important;
+                border-color: #c8c8c8 !important;
+            }
+
+            h2,
+            h3,
+            h4,
+            p,
+            li,
+            td,
+            th {
+                color: #000000 !important;
+            }
+
+            table {
+                width: 100% !important;
+            }
+
+            a {
+                color: #000000 !important;
+                text-decoration: none !important;
+            }
+        }
+            border: 2px solid var(--primary-color);
+        }
+
+        body.dark-mode .method-card {
+            background: linear-gradient(135deg, #004d40 0%, #00695c 100%);
+        }
+
+        .method-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .banner h1 {
+                font-size: 1.8rem;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab-button {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline-item {
+                gap: 1rem;
+            }
+
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        <h1>🚁 Operações com Drones em Costões Rochosos</h1>
+        <p>Guia Completo de Mapeamento, Monitoramento e Inventário Marinho</p>
+        <p><strong>Legislação:</strong> PORTARIA DECEA Nº 2.094/DNOR8, de 18 de março de 2026</p>
+        <p><strong>Instituição:</strong> Programa de Pós-graduação em Oceanografia (PPGOceano/UFSC) | 2026</p>
+        <p><strong>Pesquisador:</strong> Ronan Armando Caetano</p>
+        <p><strong>Aplicação:</strong> Fotogrametria, Mapeamento, Monitoramento e Inventário em Ambientes Costeiros</p>
+        
+        <div class="header-info">
+            <div class="language-selector" aria-label="Seletor de idioma">
+                <span style="margin-right: 1rem;">🌐</span>
+                <a class="active" href="Apresentacao_Drones_Costoes.html" aria-current="page">PT</a>
+                <a href="Apresentacao_Drones_Costoes.en.html">EN</a>
+                <a href="Apresentacao_Drones_Costoes.es.html">ES</a>
+            </div>
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Alternar modo escuro">🌙 Modo Escuro</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="tabs" role="tablist" aria-label="Seções da apresentação">
+            <button class="tab-button active" onclick="openTab(event, 'visao-geral')" role="tab" aria-selected="true">📋 Visão Geral</button>
+            <button class="tab-button" onclick="openTab(event, 'legislacao')" role="tab" aria-selected="false">⚖️ Legislação</button>
+            <button class="tab-button" onclick="openTab(event, 'tecnologia')" role="tab" aria-selected="false">🛸 Tecnologia</button>
+            <button class="tab-button" onclick="openTab(event, 'pre-campo')" role="tab" aria-selected="false">📝 Pré-Campo</button>
+            <button class="tab-button" onclick="openTab(event, 'durante-campo')" role="tab" aria-selected="false">🎬 Durante Campo</button>
+            <button class="tab-button" onclick="openTab(event, 'pos-campo')" role="tab" aria-selected="false">💾 Pós-Campo</button>
+            <button class="tab-button" onclick="openTab(event, 'seguranca')" role="tab" aria-selected="false">⚠️ Segurança</button>
+            <button class="tab-button" onclick="openTab(event, 'glossario')" role="tab" aria-selected="false">📚 Glossário</button>
+            <button class="tab-button" onclick="openTab(event, 'cronograma')" role="tab" aria-selected="false">📅 Cronograma</button>
+        </div>
+
+        <!-- TAB 1: VISÃO GERAL -->
+        <div id="visao-geral" class="tab-content active">
+            <h2>📋 Panorama do Projeto</h2>
+
+            <h3>Tema Central</h3>
+            <p>
+                Realizar operações com <strong>drones de asa rotativa (quadrirotores)</strong> para 
+                <strong>mapeamento, monitoramento e inventário de ambientes marinhos em costões rochosos</strong>, 
+                utilizando fotogrametria como técnica principal de coleta de dados. O projeto integra 
+                legislação aeronáutica brasileira, segurança operacional e boas práticas de campo.
+            </p>
+
+            <h3>Contexto e Relevância</h3>
+            <ul>
+                <li>Costões rochosos são ambientes complexos com alta biodiversidade e difícil acesso terrestre.</li>
+                <li>Drones reduzem riscos operacionais e permitem coleta de dados de alta resolução.</li>
+                <li>A legislação brasileira (DECEA/PORTARIA 2.094) regulamenta o uso de RPAS (Aeronaves Remotamente Pilotadas).</li>
+                <li>Fotogrametria com drones gera ortomosaicos e modelos 3D para análise ambiental.</li>
+                <li>O projeto integra protocolos pré-campo, durante e pós-campo para garantir qualidade dos dados.</li>
+            </ul>
+
+            <h3>O que será feito</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>1️⃣ Preparação Regulatória</h4>
+                    <p>Cumprimento de normativas DECEA, obtenção de autorizações, avaliação de risco operacional (ARO) e certificação do piloto remoto.</p>
+                </div>
+                <div class="card">
+                    <h4>2️⃣ Coleta de Dados</h4>
+                    <p>Voos fotogramétricos em costões rochosos com sobreposição de imagens (80% frontal, 60% lateral) para reconstrução 3D.</p>
+                </div>
+                <div class="card">
+                    <h4>3️⃣ Processamento</h4>
+                    <p>Ortomosaicos, nuvem de pontos, modelos de elevação digital (DEM) e análise de cobertura biológica em GIS.</p>
+                </div>
+                <div class="card">
+                    <h4>4️⃣ Monitoramento Temporal</h4>
+                    <p>Campanhas repetidas em diferentes estações para avaliar mudanças sazonais e impactos ambientais.</p>
+                </div>
+            </div>
+
+            <h3>Perguntas que o projeto responde</h3>
+            <ul>
+                <li>Como mapejar costões rochosos de forma segura e eficiente usando drones?</li>
+                <li>Quais são as exigências legais para operações com RPAS em ambientes costeiros?</li>
+                <li>Como garantir qualidade fotogramétrica em costões com relevo complexo?</li>
+                <li>Como monitorar mudanças de cobertura biológica ao longo do tempo?</li>
+                <li>Como executar operações com segurança e reduzir riscos ambientais?</li>
+            </ul>
+
+            <div class="highlight-box">
+                <strong>💡 Mensagem-chave:</strong> Operações com drones em costões rochosos exigem conhecimento técnico, 
+                rigor regulatório e planejamento estruturado para gerar dados de qualidade e garantir a segurança operacional.
+            </div>
+
+            <div class="contrast-checklist">
+                <h4>✅ Checklist Rápido de Legibilidade (especialmente no modo escuro)</h4>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span>Todos os parágrafos estão legíveis sem esforço visual em telas de notebook e celular.</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span>Títulos e subtítulos têm contraste suficiente para leitura rápida.</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span>Caixas de destaque, checklist e cards não apresentam texto escuro sobre fundo escuro.</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span>Tabelas estão legíveis em modo claro e escuro, incluindo cabeçalho e células.</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span>As cores funcionam mesmo com brilho de tela reduzido em campo.</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: LEGISLAÇÃO -->
+        <div id="legislacao" class="tab-content">
+            <h2>⚖️ Legislação Aplicada a Operações com Drones</h2>
+
+            <span class="status-badge">PORTARIA DECEA Nº 2.094/DNOR8 - 18/03/2026</span>
+
+            <h3>Principais Conceitos</h3>
+
+            <h4>O que é RPAS?</h4>
+            <p>
+                <strong>RPAS (Aeronave Remotamente Pilotada)</strong> é um conjunto de componentes que inclui a aeronave não tripulada, 
+                a estação de controle remoto, os links de comunicação e todos os elementos necessários para operar com segurança. 
+                Diferencia-se de aeromodelos por ser operado para fins profissionais (mapeamento, monitoramento, inspeção).
+            </p>
+
+            <h4>RPAS vs Aeromodelo</h4>
+            <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                <tr style="background-color: var(--primary-color); color: white;">
+                    <th style="padding: 0.8rem; text-align: left;">Critério</th>
+                    <th style="padding: 0.8rem; text-align: left;">RPAS</th>
+                    <th style="padding: 0.8rem; text-align: left;">Aeromodelo</th>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.8rem;"><strong>Finalidade</strong></td>
+                    <td style="padding: 0.8rem;">Profissional (trabalho, pesquisa)</td>
+                    <td style="padding: 0.8rem;">Recreativa</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.8rem;"><strong>Regulação</strong></td>
+                    <td style="padding: 0.8rem;">DECEA/ANAC</td>
+                    <td style="padding: 0.8rem;">DECEA (menor rigor)</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.8rem;"><strong>Certificação Piloto</strong></td>
+                    <td style="padding: 0.8rem;">Obrigatória (curso + prova)</td>
+                    <td style="padding: 0.8rem;">Não obrigatória</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.8rem;"><strong>Autorização Voo</strong></td>
+                    <td style="padding: 0.8rem;">DECEA (ARO)</td>
+                    <td style="padding: 0.8rem;">Notificação simples</td>
+                </tr>
+                <tr>
+                    <td style="padding: 0.8rem;"><strong>Seguro</strong></td>
+                    <td style="padding: 0.8rem;">Recomendado</td>
+                    <td style="padding: 0.8rem;">Opcional</td>
+                </tr>
+            </table>
+
+            <h3>Acesso ao Espaço Aéreo Brasileiro</h3>
+
+            <h4>Classes de Espaço Aéreo</h4>
+            <p>
+                Operações com RPAS em costões rochosos ocorrem em <strong>espaço aéreo não controlado</strong> 
+                (até 400 pés de altura). Mesmo assim, toda operação deve ser notificada à DECEA.
+            </p>
+
+            <h4>Requisitos para Autorização</h4>
+            <div class="highlight-box">
+                <ul>
+                    <li><strong>Piloto Certificado:</strong> Curso CORPAS + Prova teórica DECEA</li>
+                    <li><strong>Aeronave Certificada:</strong> Registro junto à ANAC</li>
+                    <li><strong>Avaliação de Risco Operacional (ARO):</strong> Conforme SANAC 93-001</li>
+                    <li><strong>Coordenadas GPS:</strong> Área de operação mapeada</li>
+                    <li><strong>Notificação DECEA:</strong> Com antecedência mínima (1-7 dias)</li>
+                    <li><strong>Seguro:</strong> Responsabilidade civil recomendado</li>
+                </ul>
+            </div>
+
+            <h4>Restrições Operacionais</h4>
+            <ul>
+                <li>Proibido voar sobre pessoas (nem mesmo em caso de acidente)</li>
+                <li>Distância mínima de 30 metros de pessoas não autorizadas</li>
+                <li>Altura máxima: 400 pés (120 m) acima do terreno</li>
+                <li>Linha de visada (VLOS) obrigatória do piloto remoto</li>
+                <li>Operação diurna (30 min antes do nascer até 30 min após o pôr do sol)</li>
+                <li>Proibido sobrevoo de áreas urbanas densas sem autorização específica</li>
+            </ul>
+
+            <h3>Considerações para Costões Rochosos</h3>
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🌊 Ambiente Marinho</h4>
+                    <p>Costões em zona costeira exigem coordenação com Marinha do Brasil se próximos a instalações militares.</p>
+                </div>
+                <div class="card">
+                    <h4>🏞️ Unidades de Conservação</h4>
+                    <p>Se localizado em APA, Parque ou Reserva, obter autorização ambiental prévia (IBAMA/ICMBio).</p>
+                </div>
+                <div class="card">
+                    <h4>⚡ Segurança Operacional</h4>
+                    <p>Terreno acidentado, ventos costeiros e proximidade com água exigem avaliação rigorosa de risco.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: TECNOLOGIA -->
+        <div id="tecnologia" class="tab-content">
+            <h2>🛸 Tecnologia de Drones</h2>
+
+            <h3>Principais Modelos para Fotogrametria</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>Quadrirotores Profissionais</h4>
+                    <p><strong>Exemplos:</strong> DJI Phantom 4 Pro, DJI Mavic 3, Freefly Astro.</p>
+                    <p><strong>Vantagens:</strong> Câmeras de alta resolução, estabilizadores, RTH (Return to Home).</p>
+                    <p><strong>Uso:</strong> Fotogrametria em costões de pequena a média escala.</p>
+                </div>
+                <div class="card">
+                    <h4>Drones de Asa Fixa</h4>
+                    <p><strong>Exemplos:</strong> senseFly eBee X, Freefly Puma.</p>
+                    <p><strong>Vantagens:</strong> Autonomia estendida, cobertura de grandes áreas.</p>
+                    <p><strong>Uso:</strong> Levantamentos de costões extensos.</p>
+                </div>
+                <div class="card">
+                    <h4>Drones com Sensores Especializados</h4>
+                    <p><strong>Exemplos:</strong> DJI Matrice 300 + Payload multiespectral.</p>
+                    <p><strong>Vantagens:</strong> Câmeras térmicas, multispectrais, LiDAR.</p>
+                    <p><strong>Uso:</strong> Análise de cobertura vegetal, stress térmico.</p>
+                </div>
+            </div>
+
+            <h3>Câmeras e Sensores</h3>
+
+            <h4>Especificações para Fotogrametria</h4>
+            <ul>
+                <li><strong>Resolução:</strong> Mínimo 20 MP para garantir GSD (Ground Sample Distance) < 2 cm</li>
+                <li><strong>Sensor:</strong> Full Frame (35 mm) para melhor qualidade em condições adversas</li>
+                <li><strong>Objetiva:</strong> Focal fixa (24 mm equivalent) para consistência geométrica</li>
+                <li><strong>Estabilização:</strong> Gimbal 3-eixos para reduzir blur de movimento</li>
+                <li><strong>ISO Automático:</strong> Importante para céus nublados costeiros</li>
+            </ul>
+
+            <h3>Tecnologias de Aerodinâmica</h3>
+
+            <h4>Sustentação em Quadrirotores</h4>
+            <p>
+                Quadrirotores geram sustentação através de 4 hélices. A variação de velocidade dos motores 
+                permite controle de <strong>pitch</strong> (inclinação frontal), <strong>roll</strong> (inclinação lateral), 
+                <strong>yaw</strong> (rotação vertical) e <strong>throttle</strong> (altitude).
+            </p>
+
+            <h4>Fatores que Afetam Voo em Costões</h4>
+            <ul>
+                <li><strong>Vento Costeiro:</strong> Refração e turbulência ao contato com rochas. Limitar a > 8 m/s</li>
+                <li><strong>Interferência Eletromagnética:</strong> Proximidade com água salgada. Afastar 50 m de linhas de alta tensão</li>
+                <li><strong>Radiação Solar:</strong> Superaquecimento da bateria em dias claros. Monitorar temperatura</li>
+                <li><strong>Temperatura:</strong> Baterias LiPo operam melhor entre 15-25°C</li>
+            </ul>
+
+            <h3>Programas e Aplicativos Recomendados</h3>
+
+            <h4>Planejamento de Voo</h4>
+            <ul>
+                <li><strong>DJI FlightPlanner:</strong> Planejamento automático com sobreposição configurável</li>
+                <li><strong>Pix4D Capture:</strong> Interface intuitiva, integrada a fotogrametria</li>
+                <li><strong>UGCS (Universal Ground Control):</strong> Controle manual e automático</li>
+            </ul>
+
+            <h4>Processamento Fotogramétrico</h4>
+            <ul>
+                <li><strong>Pix4D:</strong> Referência na indústria de fotogrametria com drones</li>
+                <li><strong>Agisoft Metashape:</strong> Qualidade superior, mais controle computacional</li>
+                <li><strong>OpenDroneMap:</strong> Software livre, bom para custódias com orçamento limitado</li>
+            </ul>
+
+            <h4>Análise em GIS</h4>
+            <ul>
+                <li><strong>QGIS:</strong> Software livre, excelente para ortomosaicos e análise</li>
+                <li><strong>ArcGIS:</strong> Padrão profissional em gestão ambiental</li>
+                <li><strong>Drone2Map (Esri):</strong> Integração direta com ArcGIS</li>
+            </ul>
+        </div>
+
+        <!-- TAB 4: PRÉ-CAMPO -->
+        <div id="pre-campo" class="tab-content">
+            <h2>📝 Metodologia Pré-Campo</h2>
+            <p style="font-style: italic; color: var(--text-light);">
+                Fase crítica onde se definem protocolos, verificam-se equipamentos e cumprem-se obrigações legais.
+            </p>
+
+            <div class="print-actions no-print">
+                <button class="print-button" onclick="printSection('pre-campo')">Imprimir / salvar PDF da ficha</button>
+                <button class="print-button" onclick="printSection('durante-campo')">Imprimir checklist de voo</button>
+            </div>
+
+            <p class="print-note no-print">Dica: use Ctrl+P para salvar em PDF após a aba desejada ser ativada.</p>
+
+            <h3>1. Pesquisa e Planejamento (2-4 semanas antes)</h3>
+
+            <div class="method-card">
+                <h4>📍 Definição da Área de Estudo</h4>
+                <ul>
+                    <li>Selecionar costões rochosos com base em critérios científicos (biodiversidade, acessibilidade, etc.)</li>
+                    <li>Obter coordenadas GPS exatas (WGS84, fuso UTM para Brasil)</li>
+                    <li>Consultar mapas de maré (tábuas de maré para período de campanha)</li>
+                    <li>Verificar horários de nascer/pôr do sol (operação diurna obrigatória)</li>
+                    <li>Identificar restrições: Unidades de Conservação, propriedades privadas, zonas de exclusão aérea</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h4>📋 Revisão de Legislação e Autorizações</h4>
+                <ul>
+                    <li><strong>DECEA:</strong> Consultar mapa de restrições de espaço aéreo (e-NotaM)</li>
+                    <li><strong>IBAMA/ICMBio:</strong> Se em UC, solicitar licença ambiental</li>
+                    <li><strong>Prefeitura Local:</strong> Verificar restrições municipais</li>
+                    <li><strong>Marinha do Brasil:</strong> Se próximo a instalações costeiras militares</li>
+                    <li><strong>Proprietários de Terra:</strong> Obter permissão escrita para acesso terrestre</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h4>🎯 Desenho do Plano de Voo</h4>
+                <ul>
+                    <li>Definir altura de voo (recomendado 80-120 m para costões rochosos)</li>
+                    <li>Calcular GSD (tamanho do pixel no terreno): GSD = (H × w) / (f × s)
+                        <br><small>H=altura, w=largura sensor, f=focal, s=resolução sensor</small></li>
+                    <li>Estabelecer sobreposição: 80% frontal, 60% lateral (padrão fotogrametria)</li>
+                    <li>Estimar área de cobertura e tempo de voo</li>
+                    <li>Plotar coordenadas de decolagem e waypoints em software (DJI FlightPlanner, UGCS)</li>
+                    <li>Simular trajetória em ortofoto do Google Earth</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h4>🧰 Materiais e itens críticos do drone</h4>
+                <ul>
+                    <li><strong>Aeronave:</strong> drone configurado para fotogrametria, com firmware atualizado</li>
+                    <li><strong>Hélices reserva:</strong> substituição rápida em caso de dano ou desgaste</li>
+                    <li><strong>Baterias extras:</strong> pelo menos 2 baterias adicionais por campanha</li>
+                    <li><strong>Cartões SD:</strong> formatados, com capacidade livre e leitor compatível</li>
+                    <li><strong>Controle remoto:</strong> carregado, calibrado e com cabo/adapter adequado</li>
+                    <li><strong>Tablet ou celular:</strong> com app de voo instalado e espaço livre</li>
+                    <li><strong>Anemômetro:</strong> para verificar vento real no costão</li>
+                    <li><strong>Kit de limpeza:</strong> pano de microfibra, soprador e proteção para lente/gimbal</li>
+                    <li><strong>Isolamento:</strong> cones, fita de sinalização e colete de segurança</li>
+                    <li><strong>Documentos:</strong> autorização, ARO, registro e contato da equipe</li>
+                </ul>
+            </div>
+
+            <h3>2. Avaliação de Risco Operacional (ARO) - SANAC 93-001</h3>
+
+            <div class="highlight-box">
+                <p><strong>Obrigação Legal:</strong> Toda operação com RPAS requer ARO conforme SANAC 93-001.</p>
+            </div>
+
+            <h4>Fatores de Risco para Costões</h4>
+            <div class="checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Terreno:</strong> Acidentado (costões) = Alto risco. Exigir altura mínima 50 m acima picos</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Vento:</strong> Costeiro ≥ 10 m/s = Inviável. Limite: 8 m/s para quadrirotores</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Proximidade com Água:</strong> Risco de perda de aeronave. Zona de exclusão 30 m</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Visibilidade:</strong> Névoa costeira reduz VLOS. Máx 100 m visibilidade horizontal</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Pessoas:</strong> Acesso público ao costão? Risco de sobrevoo. Isolar área ou notificar</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Fauna:</strong> Ninhos de aves? Evitar época de reprodução ou distância >100 m</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Bateria:</strong> Temperatura operacional 15-25°C. Custodia extra em dias quentes</span>
+                </div>
+            </div>
+
+            <h3>3. Documentação e Certificação</h3>
+
+            <h4>Piloto Remoto (Operador)</h4>
+            <ul>
+                <li>Curso Teórico CORPAS (mínimo 40 horas)</li>
+                <li>Prova DECEA (mínimo 70% acerto)</li>
+                <li>Certificado válido por 3 anos</li>
+                <li>Documentação: Certificado + CPF + Identidade em dia</li>
+            </ul>
+
+            <h4>Aeronave</h4>
+            <ul>
+                <li>Registro Aeromodelo junto à ANAC (para drones < 25 kg)</li>
+                <li>Número de série fotográfico em local visível</li>
+                <li>Manual do fabricante (em português recomendado)</li>
+                <li>Seguro de Responsabilidade Civil (opcional mas recomendado)</li>
+            </ul>
+
+            <h4>Notificação DECEA</h4>
+            <ul>
+                <li>Sistema e-NotaM DECEA (www.decea.gov.br)</li>
+                <li>Prazo: 1-7 dias antes do voo</li>
+                <li>Dados a informar: Coordenadas, altura máxima, duração, piloto, aeronave</li>
+                <li>Manter comprovante impresso no dia do voo</li>
+            </ul>
+
+            <h3>4. Checklist de Equipamento (1 dia antes)</h3>
+
+            <div class="checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Drone:</strong> Inspeção visual (hélices, estrutura, câmera), teste de conectividade</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Baterias:</strong> Carregar 100%, verificar saúde (ciclos de carga), armazenar adequadamente</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Cartão SD:</strong> Formatar, capacidade mínima 128 GB para costão pequeno</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Controle Remoto:</strong> Carregar, atualizar firmware se necessário</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Smartphone/Tablet:</strong> Instalar app pilotagem (DJI Go 4), GPS ligado</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Mochila/Proteção:</strong> Case resistente, protetor câmera, suportes</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Documentação:</strong> Certificado piloto, registro drone, notificação DECEA</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Segurança:</strong> Coletes de segurança, fita sinalização, cone, primeiros socorros</span>
+                </div>
+            </div>
+
+            <h3>5. Comunicação e Logística</h3>
+
+            <ul>
+                <li>Informar instituição (UFSC) sobre campanhas e localizações</li>
+                <li>Contato com órgãos ambientais: confirmar autorizações</li>
+                <li>Equipe de campo: definir papéis (piloto, observador de segurança, técnico de solo)</li>
+                <li>Acesso ao costão: verificar trilhas, acesso por barco, marés</li>
+                <li>Previsão meteorológica: acompanhar até D-1 (dia anterior)</li>
+            </ul>
+        </div>
+
+        <!-- TAB 5: DURANTE CAMPO -->
+        <div id="durante-campo" class="tab-content">
+            <h2>🎬 Metodologia Durante Campo</h2>
+            <p style="font-style: italic; color: var(--text-light);">
+                Execução rigorosa dos protocolos, com segurança como prioridade máxima.
+            </p>
+
+            <div class="print-actions no-print">
+                <button class="print-button" onclick="printSection('durante-campo')">Imprimir checklist de voo</button>
+                <button class="print-button" onclick="printSection('pre-campo')">Imprimir ficha pré-campo</button>
+            </div>
+
+            <p class="print-note no-print">Salve em PDF pelo diálogo de impressão do navegador.</p>
+
+            <h3>1. Setup de Campo (30-45 min antes)</h3>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h4>Preparação da Área</h4>
+                        <ul>
+                            <li>Sinalizar zona de operação com cones e fita</li>
+                            <li>Medir velocidade do vento in loco (anemômetro)</li>
+                            <li>Registrar condições meteorológicas (nuvem, visibilidade, temperatura)</li>
+                            <li>Verificar ausência de pessoas na zona de risco (raio 30 m)</li>
+                            <li>Identificar obstáculos (rochas, cabos, pássaros)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h4>Inspeção Pré-Voo</h4>
+                        <ul>
+                            <li>Verificar hélices: sem danos, bem presas</li>
+                            <li>Testar motores: rotação suave, sem ruídos anormais</li>
+                            <li>Câmera: limpar lentes, teste de foco, balanço de branco</li>
+                            <li>Gimbal: movimento suave 360°, sem emperramentos</li>
+                            <li>Bateria: indicador verde, contatos limpos</li>
+                            <li>Cartão SD: formatado, espaço livre verificado</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h4>Calibração</h4>
+                        <ul>
+                            <li>Calibração de Bússola: girar drone 360° em dois planos (lugar plano, longe de metal)</li>
+                            <li>Calibração IMU (se indicado): em local plano, sem movimento</li>
+                            <li>GPS: aguardar mínimo 10 satélites visíveis (indicador azul)</li>
+                            <li>RTH (Return to Home): configurar altura de retorno (50 m recomendado)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h4>Verificação de Software</h4>
+                        <ul>
+                            <li>Abrir app de pilotagem (DJI Go 4)</li>
+                            <li>Conectar controle remoto ao smartphone/tablet</li>
+                            <li>Verificar firmware drone/controle (atualizar se disponível)</li>
+                            <li>Testar vídeo ao vivo: qualidade, lag mínimo</li>
+                            <li>Carregar plano de voo (DJI FlightPlanner) ou definir waypoints manualmente</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>2. Execução do Voo</h3>
+
+            <h4>Fases do Voo Fotogramétrico</h4>
+
+            <div class="method-card">
+                <h4>🚁 Decolagem</h4>
+                <ul>
+                    <li>Verificar VLOS: piloto deve ver drone o tempo todo (máx 100 m)</li>
+                    <li>Levantar lentamente até 5 m de altura</li>
+                    <li>Verificar estabilidade: responde bem aos comandos?</li>
+                    <li>Se anomalia detectada: pousar imediatamente</li>
+                    <li>Iniciar gravação de vídeo antes de sair do hover</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h4>📸 Fase de Coleta Automática</h4>
+                <ul>
+                    <li>Iniciar plano de voo automático no app</li>
+                    <li>Drone faz grid com sobreposição pré-configurada</li>
+                    <li>Monitorar altitude, bateria e indicadores de sinal</li>
+                    <li>Manter olhar constante no drone (VLOS obrigatório)</li>
+                    <li>Registrar hora exata do início (para sincronização de câmera)</li>
+                    <li>Tempo típico: 15-25 min para costão pequeno (< 5 hectares)</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h4>📷 Verificação de Qualidade em Tempo Real</h4>
+                <ul>
+                    <li>Acompanhar contador de fotos no app</li>
+                    <li>Estimar cobertura: N_fotos × GSD = área_coberta (aproximado)</li>
+                    <li>Se cobertura insuficiente: planejar segundo voo</li>
+                    <li>Se problema técnico: ativar RTH (Return to Home)</li>
+                </ul>
+            </div>
+
+            <div class="method-card">
+                <h4>🛬 Pouso e Desligamento</h4>
+                <ul>
+                    <li>Finalizar plano de voo (retorna automaticamente)</li>
+                    <li>Pouso automático na área de decolagem (RTH)</li>
+                    <li>Se necessário controle manual: descer lentamente</li>
+                    <li>Parar motores: desligar controle remoto após repouso</li>
+                    <li>Descarregar bateria se encerrado (deixar 20% para próximo dia)</li>
+                    <li>Ejetar cartão SD com cuidado</li>
+                </ul>
+            </div>
+
+            <h3>3. Registro de Dados de Campo</h3>
+
+            <h4>Planilha de Voo (essencial para rastreabilidade)</h4>
+            <p>Preencher após cada voo:</p>
+            <ul>
+                <li><strong>Data/Hora:</strong> Início e fim do voo</li>
+                <li><strong>Local:</strong> Nome do costão, coordenadas centrais</li>
+                <li><strong>Altura de Voo:</strong> Em metros acima do terreno</li>
+                <li><strong>GSD Obtido:</strong> Calculado ou fornecido pelo app</li>
+                <li><strong>Nº de Fotos:</strong> Capturadas no voo</li>
+                <li><strong>Cobertura (%):</strong> Percentual de área mapeada</li>
+                <li><strong>Meteorologia:</strong> Velocidade vento, nuvem, visibilidade</li>
+                <li><strong>Bateria:</strong> % ao retorno, temperatura</li>
+                <li><strong>Problemas:</strong> Qualquer incidência (wind, perda de sinal, etc.)</li>
+                <li><strong>Observações:</strong> Notas relevantes</li>
+            </ul>
+
+            <h3>4. Cuidados de Segurança Durante Voo</h3>
+
+            <div class="highlight-box">
+                <h4>⚠️ Protocolo de Emergência</h4>
+                <ul>
+                    <li><strong>Perda de Sinal:</strong> Drone ativa RTH automático. Observar se pousa no local certo</li>
+                    <li><strong>Bateria Baixa:</strong> App avisa em 30%. RTH ativado automaticamente</li>
+                    <li><strong>Panes Motores:</strong> Drone cai. Isolar zona. Não recolher até aprovação</li>
+                    <li><strong>Vento Forte Repentino:</strong> Interromper missão, ativar RTH, pousar</li>
+                    <li><strong>Pessoa Entrando na Zona:</strong> Interromper, chamar pessoa, avisar</li>
+                    <li><strong>Falha Gimbal/Câmera:</strong> Abortar voo, descartar dados se suspeitar má qualidade</li>
+                </ul>
+            </div>
+
+            <h3>5. Segundo Voo (se necessário)</h3>
+            <ul>
+                <li>Aguardar 10-15 min entre voos (resfriamento eletrônico)</li>
+                <li>Trocar bateria por unidade carregada (manter à sombra até uso)</li>
+                <li>Formatar novo cartão SD</li>
+                <li>Executar nova missão em área complementar (não repetir exatamente)</li>
+                <li>Registrar dados do segundo voo em planilha</li>
+            </ul>
+
+            <h3>6. Monitoramento Visual (VLOS)</h3>
+
+            <div class="highlight-box">
+                <p>
+                    <strong>Obrigação Legal:</strong> Piloto remoto deve manter visada direta (VLOS) do drone durante todo o voo.
+                    Máxima distância recomendada: 100-120 metros horizontalmente. 
+                    Use observador de segurança como backup.
+                </p>
+            </div>
+        </div>
+
+        <!-- TAB 6: PÓS-CAMPO -->
+        <div id="pos-campo" class="tab-content">
+            <h2>💾 Metodologia Pós-Campo</h2>
+            <p style="font-style: italic; color: var(--text-light);">
+                Processamento de dados, garantia de qualidade e geração de produtos científicos.
+            </p>
+
+            <div class="print-actions no-print">
+                <button class="print-button" onclick="printSection('pos-campo')">Imprimir pós-campo / relatório</button>
+                <button class="print-button" onclick="printSection('pre-campo')">Imprimir ficha e materiais</button>
+            </div>
+
+            <p class="print-note no-print">Útil para anexar ao caderno de campo ou gerar PDF institucional.</p>
+
+            <h3>1. Backup e Segurança de Dados (24h após campo)</h3>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h4>Transferência Imediata</h4>
+                        <ul>
+                            <li>Conectar cartão SD em computador (leitor USB-C/SD)</li>
+                            <li>Copiar pasta de imagens para SSD externo de trabalho</li>
+                            <li>Verificar integridade: nº de arquivos = nº de fotos no voo</li>
+                            <li>Copiar também arquivo de metadados do drone (se disponível)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h4>Backup em Nuvem</h4>
+                        <ul>
+                            <li>Google Drive/OneDrive: 2 cópias em nuvem independentes</li>
+                            <li>Pastas estruturadas: /Costão_RochosoX/Data_YYYY-MM-DD/</li>
+                            <li>Tempo: ~2-4 horas para 500-1000 imagens via upload</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h4>Backup Local Redundante</h4>
+                        <ul>
+                            <li>HDD externo 2 TB (dados brutos)</li>
+                            <li>NAS institucional (UFSC se disponível)</li>
+                            <li>Manter original no cartão SD até processamento completo</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>2. Controle de Qualidade de Imagens</h3>
+
+            <h4>Inspeção Visual das Fotos</h4>
+            <ul>
+                <li>Abrir ~20% das imagens aleatoriamente em visualizador (Windows Photos, FastStone)</li>
+                <li>Verificar: foco (pixelização?), exposição (brilho/contraste adequado?), deformação (lens distortion?)</li>
+                <li>Descartar fotos muito borradas, muito claras ou muito escuras</li>
+                <li>Anotar problemas: "Fotos 150-170 muito claras (contra-luz)"</li>
+            </ul>
+
+            <h4>Limpeza de Dados</h4>
+            <ul>
+                <li>Remover imagens fora do costão (decolagem/pouso desnecessárias)</li>
+                <li>Usar script Python/ImageMagick para renomear sequencialmente: IMG_0001.JPG, IMG_0002.JPG, etc.</li>
+                <li>Verificar duplicatas (fingerprint de arquivo)</li>
+            </ul>
+
+            <h3>3. Processamento Fotogramétrico (7-14 dias)</h3>
+
+            <h4>Software Recomendado: Pix4D ou Agisoft Metashape</h4>
+
+            <div class="method-card">
+                <h4>Fluxo Pix4D</h4>
+                <ol>
+                    <li><strong>Novo Projeto:</strong> Criar projeto, nomear "Costão_RochosoX_YYYY-MM-DD"</li>
+                    <li><strong>Importar Imagens:</strong> Carregar todas as imagens (centenas a milhares)</li>
+                    <li><strong>Parâmetros:</strong>
+                        <ul>
+                            <li>Tipo câmera: Especificar modelo (ex: DJI Phantom 4 Pro)</li>
+                            <li>GSD Target: 2 cm/pixel recomendado</li>
+                            <li>Coordenadas: Inserir GPS da área (WGS84)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Initial Processing:</strong> Detecção de keypoints, alinhamento (20-60 min)</li>
+                    <li><strong>Point Cloud:</strong> Geração de nuvem de pontos (30-90 min)</li>
+                    <li><strong>DSM/DTM:</strong> Modelo de superfície digital (10-30 min)</li>
+                    <li><strong>Ortomosaico:</strong> Mosaico final de alta resolução (30-120 min)</li>
+                    <li><strong>Exportar:</strong> GeoTIFF, LAS, OBJ para GIS</li>
+                </ol>
+            </div>
+
+            <h4>Outputs Esperados</h4>
+            <ul>
+                <li><strong>Ortomosaico:</strong> Imagem georreferenciada de todo costão (resolução 2 cm/pixel)</li>
+                <li><strong>Nuvem de Pontos Densa:</strong> Milhões de pontos 3D (XYZ)</li>
+                <li><strong>Modelo de Elevação (DEM):</strong> Arquivo raster de elevação</li>
+                <li><strong>Índices Vegetativos (NDVI):</strong> Se câmera multiespectral</li>
+                <li><strong>Relatório de Qualidade:</strong> Estatísticas de processamento (RMS error, nº pontos, etc.)</li>
+            </ul>
+
+            <h3>4. Análise em GIS (QGIS/ArcGIS)</h3>
+
+            <h4>Preparação de Camadas</h4>
+            <ul>
+                <li>Importar ortomosaico como layer raster</li>
+                <li>Importar nuvem de pontos como pointcloud (plugin LAZ/LAS)</li>
+                <li>Criar layer vetorial para digitalização de características (zonas de alga, rocha nua, etc.)</li>
+                <li>Sistema de coordenadas: EPSG:31980 (UTM fuso 24S para SC)</li>
+            </ul>
+
+            <h4>Análise de Cobertura Biológica</h4>
+            <ul>
+                <li><strong>Segmentação Automática:</strong> Usar classificação supervisionada (Random Forest, SVM)</li>
+                <li><strong>Classes:</strong> Alga parda (Fucus/Ecklonia), alga vermelha, coralínea, rocha nua, areia, água</li>
+                <li><strong>Validação:</strong> Comparar com fotos submersas ou levantamento terrestre</li>
+                <li><strong>Cálculo de Áreas:</strong> Plugin Vector > Analysis Tools > Dissolve + Summarize</li>
+            </ul>
+
+            <h4>Mapas de Saída</h4>
+            <ul>
+                <li>Mapa de Cobertura Biológica (com legenda, escala, norte)</li>
+                <li>Mapa de Elevação (hipsometria do costão)</li>
+                <li>Mapa de Declividade (ângulo de relevo)</li>
+                <li>Mapa de Exposição ao Vento (se modelo aerodinâmico disponível)</li>
+            </ul>
+
+            <h3>5. Relatório Técnico (Entrega Final)</h3>
+
+            <h4>Estrutura Recomendada</h4>
+            <ul>
+                <li><strong>Resumo Executivo:</strong> 1 página, objetivos e achados principais</li>
+                <li><strong>Introdução:</strong> Contexto, área de estudo, legislação aplicada</li>
+                <li><strong>Metodologia:</strong> Equipamento, protocolo pré/durante/pós-campo, processamento</li>
+                <li><strong>Resultados:</strong> Mosaicos, modelos 3D, análises de cobertura biológica</li>
+                <li><strong>Discussão:</strong> Limitações, comparação com dados anteriores (se existentes)</li>
+                <li><strong>Conclusão:</strong> Implicações para monitoramento futuro</li>
+                <li><strong>Referências:</strong> Legislação DECEA, manuais técnicos, publicações</li>
+                <li><strong>Apêndices:</strong> Planilhas de voo, certificados, metadados</li>
+            </ul>
+
+            <h3>6. Monitoramento Temporal</h3>
+
+            <h4>Comparação Entre Campanhas</h4>
+            <ul>
+                <li>Repetir voo no mesmo costão em diferentes estações (trimestral/semestral)</li>
+                <li>Usar mesmos parâmetros de voo: altura, GSD, sobreposição</li>
+                <li>Alinhar ortomosaicos em GIS (Georeferencing plugin QGIS)</li>
+                <li>Calcular mudanças de cobertura: reclassificar imagens antigas com novo classificador</li>
+                <li>Análise multitemporal: índices de mudança (post-classification comparison)</li>
+            </ul>
+
+            <h4>Série Temporal de 2-3 Anos</h4>
+            <ul>
+                <li>Avaliar tendências sazonais (perda/ganho de alga em períodos)</li>
+                <li>Detectar impactos de eventos extremos (tempestades, variação térmica)</li>
+                <li>Fornecer dados de baseline para modelagem de cenários futuros</li>
+            </ul>
+
+            <h3>7. Arquivamento e Disseminação de Dados</h3>
+
+            <h4>Repositório de Dados</h4>
+            <ul>
+                <li><strong>Zenodo (CERN):</strong> Arquivo aberto com DOI, citável em publicações</li>
+                <li><strong>UFSC DataBank:</strong> Se disponível no PPGOceano</li>
+                <li><strong>GeoNetwork (INPE):</strong> Para dados geoespaciais brasileiros</li>
+            </ul>
+
+            <h4>Metadados (ISO 19115)</h4>
+            <ul>
+                <li>Título, resumo, palavra-chave</li>
+                <li>Cobertura espacial (bbox em WGS84)</li>
+                <li>Data de coleta, frequência de atualização</li>
+                <li>Resolução espacial (GSD)</li>
+                <li>Sistema de referência (EPSG:31980)</li>
+                <li>Responsável pelos dados, contato</li>
+            </ul>
+        </div>
+
+        <!-- TAB 7: SEGURANÇA -->
+        <div id="seguranca" class="tab-content">
+            <h2>⚠️ Segurança de Voo e Operacional</h2>
+
+            <h3>1. Sistema SIPAER (Prevenção de Acidentes)</h3>
+
+            <h4>O que é?</h4>
+            <p>
+                SIPAER (Sistema de Investigação e Prevenção de Acidentes Aeronáuticos) 
+                é a estrutura brasileira para investigação de acidentes aéreos. Embora focado em aviação civil, 
+                seus princípios de segurança se aplicam a RPAS.
+            </p>
+
+            <h4>Princípios SIPAER</h4>
+            <ul>
+                <li><strong>Culpa Não:</strong> Investigação sem objetivo de culpabilizar</li>
+                <li><strong>Aprendizado:</strong> Extrair lições de incidentes para prevenir repetição</li>
+                <li><strong>Rastreabilidade:</strong> Documentar todo evento para análise</li>
+            </ul>
+
+            <h3>2. Fatores de Risco com Drones</h3>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4>🌪️ Meteorologia</h4>
+                    <p><strong>Risco:</strong> Vento > 10 m/s, chuva, trovões.</p>
+                    <p><strong>Mitigação:</strong> Anemômetro, previsão INMET, abortar se rajadas > 8 m/s.</p>
+                </div>
+                <div class="card">
+                    <h4>🔋 Bateria</h4>
+                    <p><strong>Risco:</strong> Falha elétrica, queda repentina.</p>
+                    <p><strong>Mitigação:</strong> Testar saúde, carregar 100%, repouso 10-15 min entre voos.</p>
+                </div>
+                <div class="card">
+                    <h4>📡 Sinal GPS/Rádio</h4>
+                    <p><strong>Risco:</strong> Perda de comunicação, drone descontrolado.</p>
+                    <p><strong>Mitigação:</strong> RTH configurado, operação longe de fontes de interferência, verificar satélites.</p>
+                </div>
+                <div class="card">
+                    <h4>👨‍✈️ Fator Humano</h4>
+                    <p><strong>Risco:</strong> Fadiga, falta de atenção, erro operacional.</p>
+                    <p><strong>Mitigação:</strong> Pausas regulares, dupla verificação, protocolo pré-voo.</p>
+                </div>
+                <div class="card">
+                    <h4>🏔️ Terreno</h4>
+                    <p><strong>Risco:</strong> Colisão com rochas, árvores, estruturas.</p>
+                    <p><strong>Mitigação:</strong> VLOS obrigatório, simulação 3D em Google Earth, evitar voos rasantes.</p>
+                </div>
+                <div class="card">
+                    <h4>🌊 Proximidade com Água</h4>
+                    <p><strong>Risco:</strong> Queda, perda de dados, recuperação impossível.</p>
+                    <p><strong>Mitigação:</strong> Zona de exclusão 30 m, flutuadores opcionais.</p>
+                </div>
+            </div>
+
+            <h3>3. Avaliação de Risco Operacional (ARO) - Exemplo Prático</h3>
+
+            <div class="highlight-box">
+                <h4>📋 Checklist ARO para Costão Rochoso</h4>
+                <p><strong>Referência:</strong> SANAC 93-001</p>
+                <ul>
+                    <li>Risco Terreno: Alto (relevo acidentado) → Reduzir altura de voo, aumentar buffer</li>
+                    <li>Risco Vento: Médio (costeiro típico 5-7 m/s) → Abortar se > 8 m/s</li>
+                    <li>Risco Água: Alto (proximidade) → Flutuadores recomendados</li>
+                    <li>Risco Pessoas: Baixo (área isolada) → Confirmado; manter sinalização</li>
+                    <li>Risco Fauna: Médio (época reprodução aves) → Evitar período de nidação</li>
+                    <li>Risco Equipamento: Baixo (manutenção em dia) → OK para voo</li>
+                    <li><strong>Classificação Final:</strong> MODERADO → Autorizado com condições</li>
+                </ul>
+            </div>
+
+            <h3>4. Protocolo de Emergência</h3>
+
+            <div class="checklist">
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Perda de Sinal:</strong> Drone ativa RTH automaticamente. Monitorar se retorna ao local correto. Se não retornar, documentar coordenadas last-known e notificar DECEA.</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Falha de Motor:</strong> Drone cai. NÃO tocar até repouso total (30 seg). Fotografar local. Notificar DECEA se queda próxima a pessoas/propriedade.</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Colisão em Voo:</strong> Drone ferido ou queda. Parar missão imediatamente. Tomar primeiros socorros se pessoa atingida (raro, pois voo em área isolada).</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Incêndio Bateria:</strong> Bateria inchada ou queda = potencial incêndio. Usar extinguidor de CO2 se disponível. Afastar pessoas 10 m. NÃO usar água.</span>
+                </div>
+                <div class="checklist-item">
+                    <input type="checkbox" class="checkbox">
+                    <span><strong>Pessoa Entrando Zona:</strong> Chamar para parar. Pausar voo. Avisar sobre risco. Retomar apenas com aprovação.</span>
+                </div>
+            </div>
+
+            <h3>5. Manutenção e Integridade do Equipamento</h3>
+
+            <h4>Calibração Rotineira</h4>
+            <ul>
+                <li><strong>Bússola:</strong> A cada 5 voos ou mudança de local (> 100 km)</li>
+                <li><strong>IMU (Inercial):</strong> A cada 10 voos ou se comportamento anômalo</li>
+                <li><strong>Câmera:</strong> Balanço de branco manual em cada campo</li>
+                <li><strong>Gimbal:</strong> Calibração de eixos mensalmente</li>
+            </ul>
+
+            <h4>Substituição de Componentes</h4>
+            <ul>
+                <li><strong>Hélices:</strong> A cada 50 horas voo ou anualmente (deformação natural)</li>
+                <li><strong>Baterias:</strong> Capacidade de 80% = substituição recomendada (~2 anos)</li>
+                <li><strong>Cartão SD:</strong> Se setor danificado ou velocidade reduzida</li>
+                <li><strong>Parafusos/Fixadores:</strong> Inspeção mensal, aperto se solto</li>
+            </ul>
+
+            <h3>6. Treinamento Contínuo</h3>
+
+            <ul>
+                <li><strong>Simulador de Voo:</strong> DJI Flight Simulator (prática sem risco de danificar drone)</li>
+                <li><strong>Atualizações Legislativas:</strong> Monitorar notaM DECEA regularmente</li>
+                <li><strong>Reciclagem Anual:</strong> Curso teórico CORPAS (certificado válido 3 anos)</li>
+                <li><strong>Documentação:</strong> Manter registros de todos voos, incidentes e manutenção</li>
+            </ul>
+        </div>
+
+        <!-- TAB 8: GLOSSÁRIO -->
+        <div id="glossario" class="tab-content">
+            <h2>📚 Glossário Técnico</h2>
+
+            <div class="glossary-term">
+                <strong>RPAS (Remotely Piloted Aircraft System)</strong>
+                <p>Sistema de aeronave pilotada remotamente; inclui drone, controle, comunicação e operador.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>DECEA (Departamento de Controle do Espaço Aéreo)</strong>
+                <p>Órgão brasileiro responsável por regulação e controle de espaço aéreo, incluindo RPAS.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>ANAC (Agência Nacional de Aviação Civil)</strong>
+                <p>Órgão regulador da aviação civil brasileira; certifica aeronaves e pilotos.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>ARO (Avaliação de Risco Operacional)</strong>
+                <p>Análise sistemática de risco de operação com RPAS; obrigatória conforme SANAC 93-001.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>GSD (Ground Sample Distance)</strong>
+                <p>Tamanho em metros de um pixel no terreno; menor GSD = melhor resolução.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>VLOS (Visual Line of Sight)</strong>
+                <p>Visada direta do piloto ao drone durante voo; obrigatório por lei brasileira.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>RTH (Return to Home)</strong>
+                <p>Função automática que retorna drone ao local de decolagem ao perder sinal.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Fotogrametria</strong>
+                <p>Técnica de reconstrução 3D de objetos a partir de sobreposição de imagens 2D.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Ortomosaico</strong>
+                <p>Imagem georreferenciada de grande área obtida pela junção de fotografias sobrepostas.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>DEM (Digital Elevation Model)</strong>
+                <p>Modelo digital de elevação; raster que representa topografia em pixeis de altura.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Nuvem de Pontos</strong>
+                <p>Conjunto de pontos 3D (X, Y, Z) que representam geometria de objeto ou superfície.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Gimbal</strong>
+                <p>Sistema mecânico com motores que estabiliza câmera em até 3 eixos durante voo.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Calibração de Bússola</strong>
+                <p>Procedimento para resetar sensor magnético do drone; reduz erros de orientação.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>IMU (Inertial Measurement Unit)</strong>
+                <p>Sensor que mede aceleração e rotação; essencial para estabilidade do drone.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Costão Rochoso</strong>
+                <p>Formação geológica de rochas consolidadas em ambiente marinho costeiro; habitat de alta biodiversidade.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Sobreposição (Overlap)</strong>
+                <p>Percentual de área comum entre fotos consecutivas; tipicamente 80% frontal e 60% lateral em fotogrametria.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>GIS (Geographic Information System)</strong>
+                <p>Software para análise geoespacial; permite manipulação de shapefiles, rasters e análises topológicas.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>SIPAER</strong>
+                <p>Sistema de Investigação e Prevenção de Acidentes Aeronáuticos; base de segurança aeronáutica brasileira.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>e-NotaM</strong>
+                <p>Sistema eletrônico DECEA para notificação de operações aéreas; obrigatório para RPAS.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>LiDAR</strong>
+                <p>Light Detection and Ranging; sensor que mede distância usando laser; cria nuvem de pontos 3D de alta precisão.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>WGS84</strong>
+                <p>Sistema de referência geodésico global; padrão para GPS e coordenadas geográficas.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>UTM (Universal Transverse Mercator)</strong>
+                <p>Projeção cartográfica que divide Terra em fusos; Brasil usa fusos 21-25.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>BVLOS (Beyond Visual Line of Sight)</strong>
+                <p>Operação além da linha de visada visual do piloto; exige requisitos regulatórios adicionais e não se aplica ao protocolo padrão desta apresentação.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Ponto de Decolagem Segura</strong>
+                <p>Área plana e desobstruída, sinalizada e isolada, usada para decolar e pousar com risco mínimo para equipe e terceiros.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Waypoint</strong>
+                <p>Ponto geográfico programado no plano de voo automático; define rota, altitude e comportamento da aeronave.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Failsafe</strong>
+                <p>Conjunto de rotinas automáticas de segurança (como RTH) acionadas em eventos críticos, por exemplo perda de sinal ou bateria baixa.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Geofencing</strong>
+                <p>Barreira geográfica virtual que limita áreas de voo e impede entrada em zonas proibidas ou sensíveis.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Metadados EXIF</strong>
+                <p>Informações embutidas nas imagens (GPS, hora, câmera, exposição) essenciais para rastreabilidade e processamento fotogramétrico.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>RTK (Real-Time Kinematic)</strong>
+                <p>Técnica GNSS de alta precisão centimétrica com correção em tempo real, útil para melhorar acurácia posicional dos produtos finais.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>PPK (Post-Processed Kinematic)</strong>
+                <p>Correção posicional aplicada após o voo, usando dados brutos GNSS; alternativa ao RTK para melhorar georreferenciamento.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>GCP (Ground Control Point)</strong>
+                <p>Ponto de controle em solo com coordenada precisa, usado para aumentar a qualidade geométrica do ortomosaico e do modelo 3D.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Check Point</strong>
+                <p>Ponto independente de validação usado para medir erro posicional dos produtos sem influenciar o ajuste do modelo.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>RMS Error (Erro RMS)</strong>
+                <p>Indicador estatístico da diferença entre coordenadas observadas e estimadas; quanto menor, melhor a acurácia espacial.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>DSM e DTM</strong>
+                <p>DSM representa superfícies com objetos (vegetação/estruturas). DTM busca representar apenas o terreno, removendo elementos acima do solo.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Ortorretificação</strong>
+                <p>Correção geométrica da imagem para remover deformações por relevo e perspectiva, permitindo medições espaciais confiáveis.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Sobreposição Frontal e Lateral</strong>
+                <p>Percentuais de interseção entre fotos consecutivas no mesmo sentido (frontal) e entre faixas vizinhas (lateral), críticos para reconstrução 3D.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Rolling Shutter</strong>
+                <p>Efeito de distorção causado por leitura sequencial do sensor durante movimento; pode degradar produtos fotogramétricos em voos rápidos.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Altura AGL (Above Ground Level)</strong>
+                <p>Altitude medida em relação ao solo local, não ao nível do mar; parâmetro essencial para manter GSD consistente.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Declividade</strong>
+                <p>Inclinação do terreno calculada a partir de modelos de elevação, importante para interpretar dinâmica de costões rochosos.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Baseline Ambiental</strong>
+                <p>Conjunto de dados iniciais que serve como referência para comparar mudanças futuras em campanhas de monitoramento.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>QA/QC (Quality Assurance / Quality Control)</strong>
+                <p>Procedimentos de garantia e controle de qualidade que verificam consistência, completude e confiabilidade dos dados coletados e processados.</p>
+            </div>
+
+            <div class="glossary-term">
+                <strong>Plano Go/No-Go</strong>
+                <p>Critérios objetivos para decidir executar ou abortar a missão com base em segurança, meteorologia, documentação e estado do equipamento.</p>
+            </div>
+        </div>
+
+        <!-- TAB 9: CRONOGRAMA -->
+        <div id="cronograma" class="tab-content">
+            <h2>📅 Cronograma Operacional</h2>
+
+            <h3>Cronograma Anual de Operações (Exemplo: 2026)</h3>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">Q1</div>
+                    <div class="timeline-content">
+                        <h4>Primeiro Trimestre (Jan-Mar)</h4>
+                        <ul>
+                            <li><strong>Planejamento:</strong> Definir áreas, obter autorizações ambientais</li>
+                            <li><strong>Capacitação:</strong> Curso CORPAS para piloto (se novo)</li>
+                            <li><strong>Teste:</strong> Voos de teste em área segura (não costão)</li>
+                            <li><strong>Notificação DECEA:</strong> Solicitar slot para campanhas Q2</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">Q2</div>
+                    <div class="timeline-content">
+                        <h4>Segundo Trimestre (Abr-Jun) - CAMPANHA 1</h4>
+                        <ul>
+                            <li><strong>Voos em Campo:</strong> 2-3 campanhas em diferentes costões</li>
+                            <li><strong>Transferência Dados:</strong> Backup imediato</li>
+                            <li><strong>Processamento:</strong> Pix4D/Metashape dos primeiros mosaicos</li>
+                            <li><strong>QA/QC:</strong> Verificação de qualidade</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">Q3</div>
+                    <div class="timeline-content">
+                        <h4>Terceiro Trimestre (Jul-Set) - CAMPANHA 2</h4>
+                        <ul>
+                            <li><strong>Análise GIS:</strong> Classificação de cobertura biológica</li>
+                            <li><strong>Novos Voos:</strong> Repetir costões em condições diferentes (maré, luz)</li>
+                            <li><strong>Comparação:</strong> Análise multitemporal Q2 vs Q3</li>
+                            <li><strong>Relatórios Parciais:</strong> Resumo para stakeholders</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">Q4</div>
+                    <div class="timeline-content">
+                        <h4>Quarto Trimestre (Out-Dez) - CAMPANHA 3 + SÍNTESE</h4>
+                        <ul>
+                            <li><strong>Voos Finais:</strong> Complementar dados faltantes</li>
+                            <li><strong>Processamento Completo:</strong> Finalizar todos processamentos 3D</li>
+                            <li><strong>Relatório Final:</strong> Compilar resultados do ano</li>
+                            <li><strong>Arquivamento:</strong> Upload em Zenodo com DOI</li>
+                            <li><strong>Publicação:</strong> Submissão artigo/relatório técnico</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Linha do Tempo Detalhada: Uma Campanha (Ex: 5 dias)</h3>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">D-7</div>
+                    <div class="timeline-content">
+                        <h4>7 Dias Antes</h4>
+                        <ul>
+                            <li>Definir datas específicas de voo (checando maré, meteorologia)</li>
+                            <li>Iniciar processo de notificação DECEA</li>
+                            <li>Contactar proprietários/órgãos ambientais</li>
+                            <li>Revisar manutenção do drone</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">D-3</div>
+                    <div class="timeline-content">
+                        <h4>3 Dias Antes</h4>
+                        <ul>
+                            <li>Confirmar autorização DECEA</li>
+                            <li>Carregar baterias</li>
+                            <li>Revisar plano de voo em software</li>
+                            <li>Preparar gear (mochilas, cartões SD)</li>
+                            <li>Comunicar equipe (local, horário, responsabilidades)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">D-1</div>
+                    <div class="timeline-content">
+                        <h4>1 Dia Antes</h4>
+                        <ul>
+                            <li>Checagem final de meteorologia (previsão)</li>
+                            <li>Inspeção completa do drone (hélices, bateria, câmera)</li>
+                            <li>Reunião pré-voo com equipe</li>
+                            <li>Descanso adequado do piloto</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">D0</div>
+                    <div class="timeline-content">
+                        <h4>Dia do Voo</h4>
+                        <ul>
+                            <li><strong>06:00</strong> - Acordar, café</li>
+                            <li><strong>07:00</strong> - Sair do hotel/base</li>
+                            <li><strong>08:00</strong> - Chegar no costão</li>
+                            <li><strong>08:30</strong> - Setup campo: sinalização, checagem</li>
+                            <li><strong>09:00</strong> - Voo 1 (15-25 min)</li>
+                            <li><strong>09:45</strong> - Repouso bateria + dados 1</li>
+                            <li><strong>10:00</strong> - Voo 2 (se necessário)</li>
+                            <li><strong>10:45</strong> - Desmontagem, backup de dados em SSD</li>
+                            <li><strong>12:00</strong> - Retorno</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">D+1</div>
+                    <div class="timeline-content">
+                        <h4>1 Dia Depois</h4>
+                        <ul>
+                            <li>Transferência completa de dados para nuvem</li>
+                            <li>Preenchimento de planilha de voo</li>
+                            <li>Inspeção pós-voo do drone</li>
+                            <li>Armazenamento correto de baterias</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">D+7</div>
+                    <div class="timeline-content">
+                        <h4>1 Semana Depois</h4>
+                        <ul>
+                            <li>Início do processamento fotogramétrico (Pix4D)</li>
+                            <li>QA de imagens: validação visual de qualidade</li>
+                            <li>Documentação em relatório parcial</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">D+30</div>
+                    <div class="timeline-content">
+                        <h4>1 Mês Depois</h4>
+                        <ul>
+                            <li>Processamento finalizado (DEM, nuvem de pontos, ortomosaico)</li>
+                            <li>Importação em GIS (QGIS)</li>
+                            <li>Início de análise de cobertura biológica</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h3>Marcos do Projeto Anual</h3>
+
+            <table style="width: 100%; border-collapse: collapse; margin: 1rem 0;">
+                <tr style="background-color: var(--primary-color); color: white;">
+                    <th style="padding: 0.8rem; text-align: left;">Fase</th>
+                    <th style="padding: 0.8rem; text-align: left;">Duração</th>
+                    <th style="padding: 0.8rem; text-align: left;">Responsável</th>
+                    <th style="padding: 0.8rem; text-align: left;">Deliverable</th>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color); background-color: #f9f9f9;">
+                    <td style="padding: 0.8rem;">Planejamento</td>
+                    <td style="padding: 0.8rem;">4 semanas</td>
+                    <td style="padding: 0.8rem;">Pesquisador + GIS</td>
+                    <td style="padding: 0.8rem;">Plano operacional, autorizações</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.8rem;">Campanhas de Campo</td>
+                    <td style="padding: 0.8rem;">12 semanas (3x)</td>
+                    <td style="padding: 0.8rem;">Piloto + Técnico</td>
+                    <td style="padding: 0.8rem;">500-2000 imagens/campanha</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color); background-color: #f9f9f9;">
+                    <td style="padding: 0.8rem;">Processamento 3D</td>
+                    <td style="padding: 0.8rem;">12 semanas (paralelo)</td>
+                    <td style="padding: 0.8rem;">Técnico SIG</td>
+                    <td style="padding: 0.8rem;">3 mosaicos + DEM</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.8rem;">Análise Temática</td>
+                    <td style="padding: 0.8rem;">8 semanas</td>
+                    <td style="padding: 0.8rem;">Pesquisador + GIS</td>
+                    <td style="padding: 0.8rem;">Mapas cobertura biológica</td>
+                </tr>
+                <tr style="border-bottom: 1px solid var(--border-color); background-color: #f9f9f9;">
+                    <td style="padding: 0.8rem;">Relatório + Publicação</td>
+                    <td style="padding: 0.8rem;">6 semanas</td>
+                    <td style="padding: 0.8rem;">Pesquisador</td>
+                    <td style="padding: 0.8rem;">Relatório final, artigo</td>
+                </tr>
+                <tr style="background-color: #f9f9f9;">
+                    <td style="padding: 0.8rem;"><strong>TOTAL ANUAL</strong></td>
+                    <td style="padding: 0.8rem;"><strong>52 semanas</strong></td>
+                    <td style="padding: 0.8rem;"><strong>Equipe PPGOceano</strong></td>
+                    <td style="padding: 0.8rem;"><strong>Dataset + Publicação</strong></td>
+                </tr>
+            </table>
+
+            <h3>Condições de Parada (Go/No-Go)</h3>
+
+            <div class="highlight-box">
+                <p><strong>NO-GO (Abortar Campanha):</strong></p>
+                <ul>
+                    <li>Previsão meteorológica: vento > 8 m/s (não autorizável)</li>
+                    <li>Drone em manutenção (falha crítica)</li>
+                    <li>Piloto indisponível ou não certificado</li>
+                    <li>Notificação DECEA negada</li>
+                    <li>Pessoa doente na equipe</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p><strong>Programa de Pós-Graduação em Oceanografia (PPGOceano/UFSC)</strong></p>
+        <p>Pesquisador: Ronan Armando Caetano</p>
+        <p>Legislação: PORTARIA DECEA Nº 2.094/DNOR8 (18 de março de 2026)</p>
+        <p>Última atualização: 11 de maio de 2026</p>
+        <p>Entre costões, rochas e mares, dados que revelam a história ambiental de nossas costas marinhas.</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">
+            <a href="https://caetanoronan.github.io/projeto-mestrado-marinho/" style="color: #4db8a8;">
+                🔗 Voltar para Projeto Mestrado Marinho
+            </a>
+        </p>
+    </footer>
+
+    <script>
+        function openTab(evt, tabName) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            const tabButtons = document.querySelectorAll('.tab-button');
+
+            tabContents.forEach(content => content.classList.remove('active'));
+            tabButtons.forEach(button => {
+                button.classList.remove('active');
+                button.setAttribute('aria-selected', 'false');
+            });
+
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+            evt.currentTarget.setAttribute('aria-selected', 'true');
+        }
+
+        document.querySelectorAll('.tab-button').forEach((tab, index, allTabs) => {
+            tab.addEventListener('keydown', (event) => {
+                let targetIndex = index;
+
+                if (event.key === 'ArrowRight') targetIndex = (index + 1) % allTabs.length;
+                if (event.key === 'ArrowLeft') targetIndex = (index - 1 + allTabs.length) % allTabs.length;
+                if (event.key === 'Home') targetIndex = 0;
+                if (event.key === 'End') targetIndex = allTabs.length - 1;
+
+                if (targetIndex !== index) {
+                    event.preventDefault();
+                    allTabs[targetIndex].focus();
+                    allTabs[targetIndex].click();
+                }
+            });
+        });
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+        }
+
+        function printSection(sectionId) {
+            const target = document.getElementById(sectionId);
+            const tabButton = Array.from(document.querySelectorAll('.tab-button')).find((button) => {
+                const onclick = button.getAttribute('onclick') || '';
+                return onclick.includes(sectionId);
+            });
+
+            if (target && !target.classList.contains('active') && tabButton) {
+                tabButton.click();
+            }
+
+            window.setTimeout(() => {
+                window.print();
+            }, 150);
+        }
+
+        // Carregar tema salvo
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.body.classList.add('dark-mode');
+        }
+    </script>
+</body>
+</html>
