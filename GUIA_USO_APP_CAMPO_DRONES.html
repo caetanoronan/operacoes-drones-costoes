@@ -216,6 +216,20 @@
     </section>
 
     <section>
+      <h2>Sincronização com Supabase</h2>
+      <ol>
+        <li>No painel do Supabase, abra o <strong>SQL Editor</strong>.</li>
+        <li>Execute o arquivo <code>supabase_drones_schema.sql</code> uma vez para criar as tabelas do app.</li>
+        <li>No app, abra a aba <strong>Nuvem</strong>.</li>
+        <li>Confira a URL do Supabase, cole a <strong>Chave Anon</strong>, defina a campanha e mantenha o identificador do dispositivo.</li>
+        <li>Clique em <strong>Salvar e Conectar</strong> ou <strong>Testar conexão</strong>.</li>
+        <li>Use <strong>Enviar dados locais</strong> para mandar os registros do aparelho para a nuvem.</li>
+        <li>Use <strong>Baixar dados da nuvem</strong> para recuperar ou mesclar registros da campanha.</li>
+      </ol>
+      <p>Use apenas a chave <strong>anon public</strong> no app. A chave <strong>service role</strong> deve ficar protegida e nunca deve ser colada em páginas públicas.</p>
+    </section>
+
+    <section>
       <h2>Boas práticas de campo</h2>
       <ul>
         <li>Preencha a maior parte da missão antes de sair para o costão.</li>

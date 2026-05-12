@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>App de Campo - Operações com Drones</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0"></script>
   <style>
     :root {
       color-scheme: light;
@@ -282,6 +283,17 @@
 
     .file-input { display: none; }
 
+    .cloud-status {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.45;
+    }
+
     @media (max-width: 920px) {
       .grid, .grid.two, .grid.three, .summary, .check-grid {
         grid-template-columns: 1fr;
@@ -309,6 +321,7 @@
       <button type="button" data-view="posvoo">Pós-voo</button>
       <button type="button" data-view="dados">Dados</button>
       <button type="button" data-view="exportar">Exportar</button>
+      <button type="button" data-view="nuvem">Nuvem</button>
     </nav>
 
     <div class="notice">
@@ -767,12 +780,46 @@
         <p class="mini" id="backupStatus">Nenhum backup exportado nesta sessão.</p>
       </div>
     </section>
+
+    <section class="view" id="nuvem">
+      <div class="panel">
+        <h2>Configuração da nuvem (Supabase)</h2>
+        <div class="grid two">
+          <div>
+            <label for="supabaseUrl">URL do Supabase</label>
+            <input id="supabaseUrl" value="https://lfszlfvezihusimodglz.supabase.co" placeholder="https://seu-projeto.supabase.co">
+          </div>
+          <div>
+            <label for="supabaseAnonKey">Chave Anon (Supabase)</label>
+            <input id="supabaseAnonKey" type="password" autocomplete="off" placeholder="Cole a chave anon public aqui">
+          </div>
+          <div>
+            <label for="cloudCampaign">Campanha</label>
+            <input id="cloudCampaign" value="piloto-2026">
+          </div>
+          <div>
+            <label for="cloudDevice">Dispositivo</label>
+            <input id="cloudDevice">
+          </div>
+        </div>
+        <div class="actions">
+          <button type="button" id="saveCloudConfig">Salvar e Conectar</button>
+          <button type="button" id="testCloud">Testar conexão</button>
+          <button type="button" id="uploadCloud">Enviar dados locais</button>
+          <button type="button" id="downloadCloud">Baixar dados da nuvem</button>
+        </div>
+        <div class="cloud-status" id="cloudStatus">Configure o Supabase antes de sincronizar.</div>
+        <div class="cloud-status" id="realtimeStatus">Real-time: desconectado</div>
+        <p class="mini">As credenciais ficam salvas apenas neste navegador. Use a chave anon public do Supabase; não use service role key no app.</p>
+      </div>
+    </section>
   </main>
 
   <script>
     const STORAGE_KEY = "droneFieldApp.v1";
     const DRAFT_KEY = "droneFieldAppDraft.v1";
     const THEME_KEY = "droneFieldAppTheme.v1";
+    const CLOUD_CONFIG_KEY = "droneFieldAppCloud.v1";
 
     const columns = [
       "id", "createdAt", "project", "campaign", "missionCode", "team", "date", "location",
@@ -790,6 +837,8 @@
 
     let state = loadState();
     let lastBackupAt = "";
+    let supabaseClient = null;
+    let realtimeChannel = null;
 
     function loadState() {
       try {
@@ -891,6 +940,199 @@
       return new Date().toISOString().slice(0, 10).replace(/-/g, "");
     }
 
+    function generateDeviceId() {
+      return `device-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function loadCloudConfig() {
+      try {
+        return JSON.parse(localStorage.getItem(CLOUD_CONFIG_KEY)) || {};
+      } catch (_) {
+        return {};
+      }
+    }
+
+    function saveCloudConfig() {
+      const config = {
+        url: document.getElementById("supabaseUrl").value.trim(),
+        anonKey: document.getElementById("supabaseAnonKey").value.trim(),
+        campaign: document.getElementById("cloudCampaign").value.trim() || "piloto-2026",
+        device: document.getElementById("cloudDevice").value.trim() || generateDeviceId()
+      };
+      document.getElementById("cloudDevice").value = config.device;
+      localStorage.setItem(CLOUD_CONFIG_KEY, JSON.stringify(config));
+      return config;
+    }
+
+    function restoreCloudConfig() {
+      const config = loadCloudConfig();
+      document.getElementById("supabaseUrl").value = config.url || "https://lfszlfvezihusimodglz.supabase.co";
+      document.getElementById("supabaseAnonKey").value = config.anonKey || "";
+      document.getElementById("cloudCampaign").value = config.campaign || "piloto-2026";
+      document.getElementById("cloudDevice").value = config.device || generateDeviceId();
+    }
+
+    function setCloudStatus(message) {
+      document.getElementById("cloudStatus").textContent = message;
+    }
+
+    function setRealtimeStatus(message) {
+      document.getElementById("realtimeStatus").textContent = `Real-time: ${message}`;
+    }
+
+    function getSupabaseClient() {
+      const config = saveCloudConfig();
+      if (!config.url || !config.anonKey) {
+        throw new Error("Informe a URL e a chave anon do Supabase.");
+      }
+      if (!window.supabase || !window.supabase.createClient) {
+        throw new Error("Biblioteca Supabase não carregada. Verifique a conexão com a internet.");
+      }
+      supabaseClient = window.supabase.createClient(config.url, config.anonKey);
+      return { client: supabaseClient, config };
+    }
+
+    async function ensureCloudMetadata(client, config) {
+      const campaignResult = await client.from("drone_campaigns").upsert({
+        slug: config.campaign,
+        name: config.campaign,
+        updated_at: new Date().toISOString()
+      }, { onConflict: "slug" });
+      if (campaignResult.error) throw campaignResult.error;
+
+      const deviceResult = await client.from("drone_devices").upsert({
+        id: config.device,
+        campaign_slug: config.campaign,
+        label: config.device,
+        last_seen_at: new Date().toISOString()
+      }, { onConflict: "id" });
+      if (deviceResult.error) throw deviceResult.error;
+    }
+
+    function missionToCloudRow(mission, config) {
+      const now = new Date().toISOString();
+      return {
+        id: mission.id,
+        campaign_slug: config.campaign,
+        device_id: config.device,
+        mission_code: mission.missionCode || mission.id,
+        mission_date: mission.date || null,
+        location: mission.location || null,
+        payload: mission,
+        updated_at: mission.updatedAt || mission.createdAt || now,
+        synced_at: now
+      };
+    }
+
+    function cloudRowToMission(row) {
+      return {
+        ...(row.payload || {}),
+        id: row.id,
+        missionCode: (row.payload && row.payload.missionCode) || row.mission_code || row.id,
+        date: (row.payload && row.payload.date) || row.mission_date || "",
+        location: (row.payload && row.payload.location) || row.location || "",
+        updatedAt: row.updated_at || new Date().toISOString()
+      };
+    }
+
+    function mergeMissions(localMissions, cloudMissions) {
+      const map = new Map();
+      [...localMissions, ...cloudMissions].forEach(mission => {
+        const previous = map.get(mission.id);
+        const prevTime = previous ? Date.parse(previous.updatedAt || previous.createdAt || 0) : 0;
+        const nextTime = Date.parse(mission.updatedAt || mission.createdAt || 0);
+        if (!previous || nextTime >= prevTime) map.set(mission.id, mission);
+      });
+      return [...map.values()].sort((a, b) => String(a.date || "").localeCompare(String(b.date || "")));
+    }
+
+    async function recordSyncEvent(client, config, status, message) {
+      await client.from("drone_sync_events").insert({
+        campaign_slug: config.campaign,
+        device_id: config.device,
+        mission_count: (state.missions || []).length,
+        sync_status: status,
+        message: message || null
+      });
+    }
+
+    async function connectRealtime(client, config) {
+      if (realtimeChannel) {
+        await supabaseClient.removeChannel(realtimeChannel);
+        realtimeChannel = null;
+      }
+      realtimeChannel = client
+        .channel(`drone-missions-${config.campaign}`)
+        .on("postgres_changes", {
+          event: "*",
+          schema: "public",
+          table: "drone_missions",
+          filter: `campaign_slug=eq.${config.campaign}`
+        }, () => {
+          setRealtimeStatus("🟢 conectado - alteração recebida da nuvem");
+        })
+        .subscribe(status => {
+          if (status === "SUBSCRIBED") setRealtimeStatus("🟢 conectado");
+          if (status === "CHANNEL_ERROR") setRealtimeStatus("erro no canal");
+          if (status === "TIMED_OUT") setRealtimeStatus("tempo esgotado");
+          if (status === "CLOSED") setRealtimeStatus("desconectado");
+        });
+    }
+
+    async function testCloudConnection() {
+      try {
+        const { client, config } = getSupabaseClient();
+        await ensureCloudMetadata(client, config);
+        const { error, count } = await client
+          .from("drone_missions")
+          .select("id", { count: "exact", head: true })
+          .eq("campaign_slug", config.campaign);
+        if (error) throw error;
+        await connectRealtime(client, config);
+        setCloudStatus(`✅ Conexão OK. Campanha "${config.campaign}" tem ${count || 0} missão(ões) na nuvem.`);
+      } catch (error) {
+        setCloudStatus(`❌ Falha na conexão: ${error.message}`);
+      }
+    }
+
+    async function uploadCloudData() {
+      try {
+        const { client, config } = getSupabaseClient();
+        await ensureCloudMetadata(client, config);
+        const rows = (state.missions || []).map(mission => missionToCloudRow(mission, config));
+        if (rows.length) {
+          const { error } = await client.from("drone_missions").upsert(rows, { onConflict: "id" });
+          if (error) throw error;
+        }
+        await recordSyncEvent(client, config, "success", "upload");
+        await connectRealtime(client, config);
+        setCloudStatus(`✅ Enviado: ${rows.length} missão(ões) locais para a nuvem.`);
+      } catch (error) {
+        setCloudStatus(`❌ Falha ao enviar: ${error.message}`);
+      }
+    }
+
+    async function downloadCloudData() {
+      try {
+        const { client, config } = getSupabaseClient();
+        await ensureCloudMetadata(client, config);
+        const { data, error } = await client
+          .from("drone_missions")
+          .select("*")
+          .eq("campaign_slug", config.campaign)
+          .order("mission_date", { ascending: true });
+        if (error) throw error;
+        const cloudMissions = (data || []).map(cloudRowToMission);
+        state.missions = mergeMissions(state.missions || [], cloudMissions);
+        saveState();
+        await recordSyncEvent(client, config, "success", "download");
+        await connectRealtime(client, config);
+        setCloudStatus(`✅ Baixado: ${cloudMissions.length} missão(ões) da nuvem. Total local: ${state.missions.length}.`);
+      } catch (error) {
+        setCloudStatus(`❌ Falha ao baixar: ${error.message}`);
+      }
+    }
+
     function mean(values) {
       const valid = values.map(Number).filter(Number.isFinite);
       if (!valid.length) return "";
@@ -930,6 +1172,7 @@
     document.getElementById("missionForm").addEventListener("submit", event => {
       event.preventDefault();
       const mission = formToObject();
+      mission.updatedAt = new Date().toISOString();
       const existingIndex = state.missions.findIndex(item => item.id === mission.id);
       if (existingIndex >= 0) state.missions[existingIndex] = mission;
       else state.missions.push(mission);
@@ -1011,6 +1254,15 @@
       saveState();
     });
 
+    document.getElementById("saveCloudConfig").addEventListener("click", async () => {
+      saveCloudConfig();
+      await testCloudConnection();
+    });
+
+    document.getElementById("testCloud").addEventListener("click", testCloudConnection);
+    document.getElementById("uploadCloud").addEventListener("click", uploadCloudData);
+    document.getElementById("downloadCloud").addEventListener("click", downloadCloudData);
+
     document.getElementById("themeToggle").addEventListener("click", () => {
       document.body.classList.toggle("dark");
       const dark = document.body.classList.contains("dark");
@@ -1024,6 +1276,7 @@
     }
 
     restoreDraft();
+    restoreCloudConfig();
     if (!document.getElementById("date").value) {
       document.getElementById("date").value = new Date().toISOString().slice(0, 10);
     }
