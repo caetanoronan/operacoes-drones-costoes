@@ -791,7 +791,7 @@
           </div>
           <div>
             <label for="supabaseAnonKey">Chave publishable/anon (Supabase)</label>
-            <input id="supabaseAnonKey" type="password" autocomplete="off" placeholder="Cole a chave publishable ou anon public aqui">
+            <input id="supabaseAnonKey" type="password" autocomplete="off" value="sb_publishable_RwAQBqKJHQeEq5GILYBvbA_rwB4VOVe" placeholder="Cole a chave publishable ou anon public aqui">
           </div>
           <div>
             <label for="cloudCampaign">Campanha</label>
@@ -967,7 +967,7 @@
     function restoreCloudConfig() {
       const config = loadCloudConfig();
       document.getElementById("supabaseUrl").value = config.url || "https://hybymvelsdhlmixmmpbp.supabase.co";
-      document.getElementById("supabaseAnonKey").value = config.anonKey || "";
+      document.getElementById("supabaseAnonKey").value = config.anonKey || "sb_publishable_RwAQBqKJHQeEq5GILYBvbA_rwB4VOVe";
       document.getElementById("cloudCampaign").value = config.campaign || "piloto-2026";
       document.getElementById("cloudDevice").value = config.device || generateDeviceId();
     }
