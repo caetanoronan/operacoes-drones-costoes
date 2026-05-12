@@ -787,11 +787,11 @@
         <div class="grid two">
           <div>
             <label for="supabaseUrl">URL do Supabase</label>
-            <input id="supabaseUrl" value="https://lfszlfvezihusimodglz.supabase.co" placeholder="https://seu-projeto.supabase.co">
+            <input id="supabaseUrl" value="https://hybymvelsdhlmixmmpbp.supabase.co" placeholder="https://seu-projeto.supabase.co">
           </div>
           <div>
-            <label for="supabaseAnonKey">Chave Anon (Supabase)</label>
-            <input id="supabaseAnonKey" type="password" autocomplete="off" placeholder="Cole a chave anon public aqui">
+            <label for="supabaseAnonKey">Chave publishable/anon (Supabase)</label>
+            <input id="supabaseAnonKey" type="password" autocomplete="off" placeholder="Cole a chave publishable ou anon public aqui">
           </div>
           <div>
             <label for="cloudCampaign">Campanha</label>
@@ -810,7 +810,7 @@
         </div>
         <div class="cloud-status" id="cloudStatus">Configure o Supabase antes de sincronizar.</div>
         <div class="cloud-status" id="realtimeStatus">Real-time: desconectado</div>
-        <p class="mini">As credenciais ficam salvas apenas neste navegador. Use a chave anon public do Supabase; não use service role key no app.</p>
+        <p class="mini">As credenciais ficam salvas apenas neste navegador. Use a chave publishable ou anon public do Supabase; não use service role key no app.</p>
       </div>
     </section>
   </main>
@@ -966,7 +966,7 @@
 
     function restoreCloudConfig() {
       const config = loadCloudConfig();
-      document.getElementById("supabaseUrl").value = config.url || "https://lfszlfvezihusimodglz.supabase.co";
+      document.getElementById("supabaseUrl").value = config.url || "https://hybymvelsdhlmixmmpbp.supabase.co";
       document.getElementById("supabaseAnonKey").value = config.anonKey || "";
       document.getElementById("cloudCampaign").value = config.campaign || "piloto-2026";
       document.getElementById("cloudDevice").value = config.device || generateDeviceId();
@@ -983,7 +983,7 @@
     function getSupabaseClient() {
       const config = saveCloudConfig();
       if (!config.url || !config.anonKey) {
-        throw new Error("Informe a URL e a chave anon do Supabase.");
+        throw new Error("Informe a URL e a chave publishable/anon do Supabase.");
       }
       if (!window.supabase || !window.supabase.createClient) {
         throw new Error("Biblioteca Supabase não carregada. Verifique a conexão com a internet.");
