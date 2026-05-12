@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guia de Uso - App de Campo para Drones</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #eef3f5;
+      --panel: #ffffff;
+      --ink: #17242f;
+      --muted: #5d6d78;
+      --line: #ccd8de;
+      --soft: #f7fafb;
+      --accent: #0b6b63;
+      --warn: #8a5a00;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.55;
+    }
+
+    header {
+      padding: 18px;
+      background: linear-gradient(135deg, #063b44, #0c615c);
+      color: #fff;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.35rem;
+      line-height: 1.2;
+    }
+
+    header p {
+      max-width: 860px;
+      margin: 8px 0 0;
+      color: #d8eef0;
+    }
+
+    header a {
+      color: #d8eef0;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    main {
+      width: min(980px, 94vw);
+      margin: 0 auto;
+      padding: 16px 0 32px;
+    }
+
+    section {
+      margin-bottom: 12px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 1.08rem;
+    }
+
+    h3 {
+      margin: 14px 0 8px;
+      font-size: 0.98rem;
+    }
+
+    ul, ol { padding-left: 1.25rem; }
+
+    li { margin: 6px 0; }
+
+    code {
+      padding: 2px 4px;
+      border-radius: 4px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+    }
+
+    .notice {
+      border-color: #dfca8a;
+      background: #fff8e6;
+      color: #65420b;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--soft);
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--accent);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 40px;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 12px;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    @media (max-width: 760px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Guia de Uso - App de Campo para Drones</h1>
+    <p>Manual rápido para preparar, registrar, conferir e exportar missões com drones em costões rochosos.</p>
+    <p><a href="app_campo_drones.html">Abrir app de campo</a> | <a href="Apresentacao_Drones_Costoes.html">Voltar para a apresentação</a></p>
+  </header>
+
+  <main>
+    <section class="notice">
+      <h2>Antes de começar</h2>
+      <p>O app salva os dados no navegador do aparelho usando armazenamento local. Isso permite trabalhar em campo mesmo sem internet, mas exige exportar um backup ao final da atividade.</p>
+    </section>
+
+    <section>
+      <h2>Fluxo recomendado</h2>
+      <ol>
+        <li>Abra o app no celular, tablet ou notebook que será usado em campo.</li>
+        <li>Preencha a aba <strong>Missão</strong> com projeto, equipe, local, data e objetivo.</li>
+        <li>Revise a aba <strong>Pré-voo</strong> antes de energizar ou decolar o drone.</li>
+        <li>Registre vento, chuva, visibilidade, maré, luminosidade e riscos na aba <strong>Condições</strong>.</li>
+        <li>Complete o <strong>Plano de voo</strong> com altitude, área, velocidade, sobreposição e sensor.</li>
+        <li>Durante ou logo após o voo, preencha <strong>Registro</strong> com horários, GPS, fotos, vídeos, pasta de arquivos e ocorrências.</li>
+        <li>Após descarregar os dados, finalize a aba <strong>Pós-voo</strong>.</li>
+        <li>Clique em <strong>Salvar missão</strong> e confira a aba <strong>Dados</strong>.</li>
+        <li>No fim do dia, use a aba <strong>Exportar</strong> para gerar CSV, Excel e backup JSON.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>O que preencher em cada aba</h2>
+      <div class="grid">
+        <div class="card">
+          <strong>Missão</strong>
+          Identifica projeto, equipe, campanha, local, código da missão e objetivo. Use um código consistente, por exemplo <code>DRN-SAM-001</code>.
+        </div>
+        <div class="card">
+          <strong>Pré-voo</strong>
+          Documenta piloto, observador, aeronave, registro, autorização, avaliação de risco e checklist físico do equipamento.
+        </div>
+        <div class="card">
+          <strong>Condições</strong>
+          Registra vento, chuva, visibilidade, maré, luminosidade e riscos locais como pessoas, fauna, fios, árvores e embarcações.
+        </div>
+        <div class="card">
+          <strong>Plano de voo</strong>
+          Define modo de voo, altitude, área, velocidade, sobreposições, sensor, captura, RTH e pontos de decolagem/pouso.
+        </div>
+        <div class="card">
+          <strong>Registro</strong>
+          Guarda o que realmente ocorreu: horário, GPS, altitude, quantidade de fotos/vídeos, pasta dos arquivos, status e ocorrências.
+        </div>
+        <div class="card">
+          <strong>Pós-voo</strong>
+          Fecha a missão com baterias usadas, integridade dos dados, backup, anomalias, processamento e link dos produtos.
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>GPS e internet</h2>
+      <ul>
+        <li>O botão <strong>Capturar GPS</strong> usa o GPS do aparelho, quando o navegador permite.</li>
+        <li>Em celulares, a captura funciona melhor com permissão de localização ativa.</li>
+        <li>O app pode ser usado sem internet depois de carregado, mas o link precisa abrir pelo menos uma vez.</li>
+        <li>Se o GPS falhar, preencha latitude e longitude manualmente.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Exportação e backup</h2>
+      <ul>
+        <li><strong>CSV:</strong> recomendado para abrir em planilhas e bancos de dados.</li>
+        <li><strong>Excel:</strong> arquivo <code>.xls</code> simples para conferência rápida.</li>
+        <li><strong>JSON:</strong> backup completo para restaurar os registros no próprio app.</li>
+        <li>Depois de exportar, envie os arquivos para OneDrive, Google Drive, HD externo ou repositório do projeto.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Boas práticas de campo</h2>
+      <ul>
+        <li>Preencha a maior parte da missão antes de sair para o costão.</li>
+        <li>Use nomes de pasta iguais ao código da missão para facilitar a rastreabilidade.</li>
+        <li>Não apague registros no app antes de exportar CSV e JSON.</li>
+        <li>Registre voos abortados ou parciais; eles ajudam a documentar risco, meteorologia e limitações operacionais.</li>
+        <li>Ao final do dia, confira se as fotos/vídeos existem na pasta indicada e se o backup foi feito.</li>
+      </ul>
+      <div class="actions">
+        <a class="button" href="app_campo_drones.html">Abrir app de campo</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
